@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% block head_list %}
+  
+{% endblock head_list %}
+
 {% block titulo %}
     Países
 {% endblock titulo %}
@@ -50,7 +54,7 @@
             <div class="alert alert-info">Não tem {{ obj.descricao }}</div>
         {% else %}
 
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover" id="tabela_paises">
             <thead>
                 <th>Id</th>
                 <th>Descrição</th>
@@ -90,4 +94,16 @@
     <!-- /.content -->
   </div>
 {% endblock content %}
+
+{% block footer_list %}
+  <script src="{% static 'plugins/datatables/jquery.dataTables.min.js'%}"></script>
+{% endblock footer_list %}
+
+{% block js_page %}
+<script>
+  $(function(){
+    $('#tabela_paises').DataTable()
+  })
+</script>
+{% endblock js_page %}
 
