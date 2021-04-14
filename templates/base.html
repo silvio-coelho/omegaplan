@@ -31,6 +31,10 @@
 </div>
 <!-- ./wrapper -->
 
+
+
+<div class="modal fade" id="popup"></div>
+
 <!-- jQuery -->
 <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
 <!-- Bootstrap 4 -->
@@ -39,5 +43,55 @@
 <script src="{% static 'dist/js/adminlte.min.js' %}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{% static 'dist/js/demo.js' %}"></script>
+
+<script src="{% static 'plugins/jquery_confirm/jquery-confirm.min.js' %}"></script>
+
+
+{% block control_modal %}
+
+  <script>
+    function abrir_modal(url){
+      $('#popup').load(url, function(){
+        $(this).modal({
+          backdrop:'static',
+          keyboard: false
+        })
+        $(this).modal('show')
+      })
+      return false
+    }
+
+    function fechar_modal(){
+      $('#popup').modal('hide')
+      return false
+    }
+
+    function mensagem(msg, cor='green'){
+      if(cor=='success'){
+        cor = 'green'
+      } else {
+        cor = 'red'
+      }
+      $.alert({
+        title:'',
+        theme:'material',
+        type:cor,
+        content:msg
+      })
+    }
+
+    {% if messages %}
+      {% for message in messages %}
+        console.log('{{ message.tags }}')
+        mensagem("{{ message }}", "{{ message.tags }}")
+      {% endfor %}
+    {% endif %}
+
+  </script>
+
+  {% endblock control_modal %}
+
+
+{% block js_page %}{% endblock js_page %}
 </body>
 </html>
