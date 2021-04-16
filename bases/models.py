@@ -42,4 +42,17 @@ class Estado(ClasseModelo):
     
     class Meta:
         verbose_name_plural = 'Estados'
+
+
+class Cidade(ClasseModelo):
+    cidade = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return '{}' .format(self.cidade)
     
+    def save(self):
+        self.cidade = self.cidade.upper()
+        super(Cidade, self).save()
+    
+    class Meta:
+        verbose_name_plural = 'Cidades'
