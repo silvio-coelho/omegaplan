@@ -14,7 +14,7 @@
           <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">{{ request.user.username }}</a>
         </div>
       </div>
 
@@ -45,21 +45,27 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../../index.html" class="nav-link">
+                <a href="{% url 'bases:pais_list' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Países</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../../index2.html" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Estados</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../../index3.html" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Cidades</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/admin" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Logar</p>
                 </a>
               </li>
             </ul>
