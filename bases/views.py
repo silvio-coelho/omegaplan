@@ -35,10 +35,20 @@ class PaisNew(SuccessMessageMixin, generic.CreateView):
     #login_url = "bases:login"
     success_message = "País criado com sucesso!"
 
+    """ def post(self, request, *args, **kwargs):
+        print(request.POST)
+        print(self.request.user.id) """
+
 
     def form_valid(self, form):
-        form.instance.usuario_criou = self.request.user.id #aqui não está relacionado por isso o id
+        print(self.request.user.id)
+        form.instance.usuario_criou_id = self.request.user.id #aqui não está relacionado por isso o id
         return super().form_valid(form)
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 
 
