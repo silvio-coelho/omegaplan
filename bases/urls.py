@@ -1,5 +1,6 @@
 from django.urls import path
-from bases.views import *
+from bases.views import PaisNew, Home, PaisView, PaisEdit
+
 
 urlpatterns = [
     path('', Home.as_view(), name='home'),
