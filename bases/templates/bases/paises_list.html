@@ -57,7 +57,7 @@
         <table class="table table-striped table-hover" id="tabela_paises">
             <thead>
                 <th>Id</th>
-                <th>Descrição</th>
+                <th>Pais</th>
                 <th>Ativo</th>
                 <th>Criado</th>
                 <th>Modificado</th>
@@ -67,7 +67,7 @@
                 {% for item in obj %}
                     <tr>
                         <td>{{item.id}}</td>
-                        <td>{{item.descricao}}</td>
+                        <td>{{item.pais}}</td>
                         <td>{{item.ativo|yesno:"Ativo,Inativo"}}</td>
                         <td>{{item.data_criou|date:"d/m/Y H:i:s"}}</td>
                         <td>{{item.data_modificou|date:"d/m/Y H:i:s"}}</td>

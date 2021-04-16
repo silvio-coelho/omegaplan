@@ -5,9 +5,9 @@ from .models import Pais
 class PaisForm(forms.ModelForm):
     class Meta:
         model=Pais
-        fields=['descricao', 'ativo']
-        labels={'descricao':'Descrição', 'ativo':'Ativo'}
-        widget={'descricao':forms.TextInput}
+        fields=['pais', 'ativo']
+        labels={'pais':'Pais', 'ativo':'Ativo'}
+        widget={'pais':forms.TextInput}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
