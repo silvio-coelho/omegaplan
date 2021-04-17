@@ -22,9 +22,9 @@ class Pais(ClasseModelo):
     def __str__(self):
         return '{}'.format(self.pais)
 
-    """ def save(self):
+    def save(self):
         self.pais = self.pais.upper()
-        super(Pais, self).save() """
+        super(Pais, self).save()
 
     class Meta:
         verbose_name_plural = 'Paises'        

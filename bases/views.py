@@ -33,6 +33,7 @@ class PaisView(generic.ListView):
         context['entity'] = "País"
         context['breadcrumb'] = "Países"
         context['list_url'] = reverse_lazy("bases:pais_list")
+        context['add_url'] = reverse_lazy("bases:pais_new")
         return context
     
 

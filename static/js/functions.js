@@ -29,7 +29,7 @@ function submit_with_ajax(url, title, content, parameters, callback) {
         dragWindowBorder: false,
         buttons: {
             info: {
-                text: "Si",
+                text: "Sim",
                 btnClass: 'btn-primary',
                 action: function () {
                     $.ajax({
@@ -42,6 +42,11 @@ function submit_with_ajax(url, title, content, parameters, callback) {
                     }).done(function (data) {
                         console.log(data);
                         if (!data.hasOwnProperty('error')) {
+                            Swal.fire({
+                                title: 'Sucesso',
+                                text: 'Operação realizada!',
+                                icon: 'success'
+                            });
                             callback(data);
                             return false;
                         }
@@ -54,7 +59,7 @@ function submit_with_ajax(url, title, content, parameters, callback) {
                 }
             },
             danger: {
-                text: "No",
+                text: "Não",
                 btnClass: 'btn-red',
                 action: function () {
 
