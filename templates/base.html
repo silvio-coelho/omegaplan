@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<title>{% block titulo %}{% endblock titulo %}</title>
+<title>OmegaPlan | {% block titulo %}{% endblock titulo %}</title>
 {% include 'parciais/header.html' %}
 
 {% block head_list %}{% endblock head_list %}
@@ -47,6 +47,9 @@
 <script src="{% static 'dist/js/demo.js' %}"></script>
 
 <script src="{% static 'plugins/jquery_confirm/jquery-confirm.min.js' %}"></script>
+<script src="{% static 'plugins/sweetalert2/sweetalert2.min.js' %}"></script>
+
+<script src="{% static 'js/functions.js' %}"></script>
 
 {% block footer_list %}
   

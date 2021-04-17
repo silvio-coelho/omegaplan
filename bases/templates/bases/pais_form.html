@@ -6,6 +6,7 @@
         <form method="POST" role="form" class="form-inline" action="{% url 'bases:pais_new' %}">
         {% endif %}
             {% csrf_token %}
+            <input type="hidden" id="action" name="action" value="{{ action }}">
             <div class="col-xl-12 col-md-12 mb-12">
                 {% if obj %}
                 <div class="card border-left-warning shadow h-100 py-2">
@@ -20,16 +21,13 @@
                                     </div>
                                     <div class="dropdown-divider"></div>
                                     <div class="row">
-                                        {{ form.as_p }}
+                                        {{ form }}
                                     </div>
                                     <div class="dropdown-divider"></div>
                                     <div class="row">
                                         <div class="col">
-                                            <button type="submit" class="btn btn-danger"><span class="fa fa-save">
-                                                    Salvar</span></button>
-                                            {% comment %} <a href="{% url 'inv:um_list' %}" class="btn btn-success"><span
-                                                    class="fa fa-undo"> Voltar</span></a> {% endcomment %}
-                                            <button type="button" class="btn btn-success" onclick="return fechar_modal()">Cancelar</button>        
+                                            <button type="submit" class="btn btn-danger"><span class="fa fa-save"> Salvar</span></button>
+                                            <button type="button" class="btn btn-success" onclick="return fechar_modal()"> Cancelar</button>        
                                         </div>
                                     </div>
                                 </div>
@@ -40,3 +38,20 @@
         </form>
     </div>
 </div>
+
+<script>
+$('form').on('submit', function (e) {
+            e.preventDefault();
+            var parameters = new FormData(this);
+            let url = window.location.pathname
+            if($('#action').val() == 'add'){
+                url += 'new'
+            } else if($('#action').val() == 'update'){
+                url += 'edit/' + '{{ obj.id }}' 
+            }
+            //submit_with_ajax(window.location.pathname, 'Notificação', 'Tem certeza que quer realizar essa ação?', parameters, function () {
+            submit_with_ajax(url, 'Notificação', 'Tem certeza que quer realizar essa ação?', parameters, function () {
+                location.href = '{{ list_url }}';
+            });
+        });
+</script>

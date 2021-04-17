@@ -13,7 +13,7 @@ class ClasseModelo(models.Model):
     usuario_modificou = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        abstract=True #para o django não levar em consideração essa classe nas migrações
+        abstract = True #para o django não levar em consideração essa classe nas migrações
 
 
 class Pais(ClasseModelo):
