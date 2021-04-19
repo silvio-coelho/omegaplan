@@ -72,7 +72,7 @@ class OrgaoPublico(ClasseModelo):
     cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT)
 
     def __str__(self):
-        return '{}' .format(self.orgao_publico + 'de' + self.cidade.__str__())
+        return '{}' .format(self.orgao_publico + ' DE ' + self.cidade.__str__())
     
     def save(self):
         self.orgao_publico = self.orgao_publico.upper()
@@ -88,7 +88,7 @@ class Imovel(ClasseModelo):
     endereco = models.CharField(max_length=100)
 
     def __str__(self):
-        return '{}' .format(self.imovel + 'de' + self.orgao_publico.__str__())
+        return '{}' .format(self.imovel + ' DE ' + self.orgao_publico.__str__())
     
     def save(self):
         self.imovel = self.imovel.upper()
@@ -118,7 +118,7 @@ class Projeto(ClasseModelo):
     tipo_projeto = models.ForeignKey(TipoProjeto, on_delete=models.PROTECT)
 
     def __str__(self):
-        return '{}' .format(self.projeto + 'de' + self.imovel.__str__())
+        return '{}' .format(self.projeto + ' DE ' + self.imovel.__str__())
     
     def save(self):
         self.projeto = self.projeto.upper()
@@ -144,7 +144,7 @@ class Obra(ClasseModelo):
     status_obra = models.CharField(max_length=3, choices=STATUS_OBRA_CHOICES)
 
     def __str__(self):
-        return '{}' .format(self.obra + 'de' + self.projeto.__str__())
+        return '{}' .format(self.obra + ' DE ' + self.projeto.__str__())
     
     def save(self):
         self.obra = self.obra.upper()
@@ -160,7 +160,7 @@ class Arquivo(ClasseModelo):
     arquivo = models.FileField(upload_to='arquivos')
 
     def __str__(self):
-        return '{}' .format(self.titulo + 'de' + self.projeto.__str__())
+        return '{}' .format(self.titulo + ' DE ' + self.projeto.__str__())
     
     def save(self):
         self.titulo = self.titulo.upper()
