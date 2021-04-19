@@ -63,3 +63,33 @@ class Cidade(ClasseModelo):
     
     class Meta:
         verbose_name_plural = 'Cidades'
+
+
+class OrgaoPublico(ClasseModelo):
+    orgao_publico = models.CharField(max_length=100, unique=True)
+    cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return '{}' .format(self.orgao_publico + 'de' + self.cidade.__str__())
+    
+    def save(self):
+        self.orgao_publico = self.orgao_publico.upper()
+        super(OrgaoPublico, self).save()
+    
+    class Meta:
+        verbose_name_plural = 'Órgãos Públicos'
+    
+
+class Imovel(ClasseModelo):
+    imovel = models.CharField(max_length=100, unique=True)
+    orgao_publico = models.ForeignKey(OrgaoPublico, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return '{}' .format(self.imovel + 'de' + self.orgao_publico.__str__())
+    
+    def save(self):
+        self.imovel = self.imovel.upper()
+        super(Imovel, self).save()
+    
+    class Meta:
+        verbose_name_plural = 'Imóveis'
