@@ -74,10 +74,10 @@ class PaisNew(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
         return context
 
 
-class PaisEdit(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
-    def form_valid(self, form):
-        form.instance.usuario_criou = self.request.user #aqui não está relacionado por isso o id
-        return super().form_valid(form)
+# class PaisEdit(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
+#     def form_valid(self, form):
+#         form.instance.usuario_criou = self.request.user #aqui não está relacionado por isso o id
+#         return super().form_valid(form)
 
   
 class PaisEdit(SuccessMessageMixin, generic.UpdateView):
@@ -116,9 +116,9 @@ class PaisEdit(SuccessMessageMixin, generic.UpdateView):
         context['list_url'] = self.success_url
         context['action'] = 'update'
         return context
-    def form_valid(self, form):
-        form.instance.usuario_modificou = self.request.user #aqui não está relacionado por isso o id
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     form.instance.usuario_modificou = self.request.user #aqui não está relacionado por isso o id
+    #     return super().form_valid(form)
 
 
 class EstadoView(generic.ListView):

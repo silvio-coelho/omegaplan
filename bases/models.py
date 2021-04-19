@@ -18,7 +18,7 @@ class ClasseModelo(models.Model):
 
 class Pais(ClasseModelo):
     pais = models.CharField(max_length=100, unique=True)
-    ddi = models.CharField(max_length=3)
+    ddi = models.CharField(max_length=4)
     sigla = models.CharField(max_length=5)
 
     def __str__(self):
@@ -52,6 +52,8 @@ class Estado(ClasseModelo):
 class Cidade(ClasseModelo):
     cidade = models.CharField(max_length=100, unique=True)
     estado = models.ForeignKey(Estado, on_delete=models.PROTECT)
+    ddd = models.CharField(max_length=3)
+    sigla = models.CharField(max_length=5)
     codigo_municipio = models.IntegerField("Código Municipio (IBGE)", default=0, help_text="Necessário para emitir NFS-e.")
 
     def __str__(self):
@@ -83,6 +85,7 @@ class OrgaoPublico(ClasseModelo):
 class Imovel(ClasseModelo):
     imovel = models.CharField(max_length=100, unique=True)
     orgao_publico = models.ForeignKey(OrgaoPublico, on_delete=models.PROTECT)
+    endereco = models.CharField(max_length=100)
 
     def __str__(self):
         return '{}' .format(self.imovel + 'de' + self.orgao_publico.__str__())
@@ -93,3 +96,75 @@ class Imovel(ClasseModelo):
     
     class Meta:
         verbose_name_plural = 'Imóveis'
+
+
+class TipoProjeto(ClasseModelo):
+    tipo_projeto = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return '{}' .format(self.tipo_projeto)
+    
+    def save(self):
+        self.tipo_projeto = self.tipo_projeto.upper()
+        super(TipoProjeto, self).save()
+    
+    class Meta:
+        verbose_name_plural = 'Tipos de Projetos'
+
+
+class Projeto(ClasseModelo):
+    projeto = models.CharField(max_length=100, unique=True)
+    imovel = models.ForeignKey(Imovel, on_delete=models.PROTECT)
+    tipo_projeto = models.ForeignKey(TipoProjeto, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return '{}' .format(self.projeto + 'de' + self.imovel.__str__())
+    
+    def save(self):
+        self.projeto = self.projeto.upper()
+        super(Projeto, self).save()
+    
+    class Meta:
+        verbose_name_plural = 'Projetos'
+
+
+class Obra(ClasseModelo):
+    EXECUCAO = 'Exe'
+    FINALIZADA = 'Fin'
+    PARALIZADA = 'Par'
+
+    obra = models.CharField(max_length=100, unique=True)
+    projeto = models.ForeignKey(Projeto, on_delete=models.PROTECT)
+
+    STATUS_OBRA_CHOICES = [
+        (EXECUCAO, 'Em execução'),
+        (FINALIZADA, 'Finalizada'),
+        (PARALIZADA, 'Paralizada'),
+    ]
+    status_obra = models.CharField(max_length=3, choices=STATUS_OBRA_CHOICES)
+
+    def __str__(self):
+        return '{}' .format(self.obra + 'de' + self.projeto.__str__())
+    
+    def save(self):
+        self.obra = self.obra.upper()
+        super(Obra, self).save()
+    
+    class Meta:
+        verbose_name_plural = 'Obras'
+    
+    
+class Arquivo(ClasseModelo):
+    titulo = models.CharField(max_length=100, unique=True)
+    projeto = models.ForeignKey(Projeto, on_delete=models.PROTECT)
+    arquivo = models.FileField(upload_to='arquivos')
+
+    def __str__(self):
+        return '{}' .format(self.titulo + 'de' + self.projeto.__str__())
+    
+    def save(self):
+        self.titulo = self.titulo.upper()
+        super(Arquivo, self).save()
+    
+    class Meta:
+        verbose_name_plural = 'Arquivos'
