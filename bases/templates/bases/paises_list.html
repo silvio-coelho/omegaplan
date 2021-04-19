@@ -29,10 +29,8 @@
 
 
 
-<<<<<<< HEAD
   
-=======
-          <div class="card-tools">
+          {% comment %} <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
             </button>
@@ -64,7 +62,7 @@
                         <td>{{item.data_criou|date:"d/m/Y H:i:s"}}</td>
                         <td>{{item.data_modificou|date:"d/m/Y H:i:s"}}</td>
                         <td>
-                            {% comment %} <a href="{% url 'bases:pais_edit' item.id %}" class="btn btn-warning btn-circle" role="button"><i class="far fa-edit"></i></a> {% endcomment %}
+                            {% comment %} <a href="{% url 'bases:pais_edit' item.id %}" class="btn btn-warning btn-circle" role="button"><i class="far fa-edit"></i></a>
                             <a class="btn btn-success btn-circle" onclick="return abrir_modal('{% url 'bases:pais_edit' item.id %}')" href="#"><i class="far fa-calendar-plus"></i></a>
                             <a href="#" class="btn btn-danger btn-circle" role="button"><i class="far fa-trash-alt"></i></a>
                         </td>
@@ -98,6 +96,5 @@
   })
 </script>
 {% endblock js_page %}
->>>>>>> alter-andrew
 
-  
+   {% endcomment %}
