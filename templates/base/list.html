@@ -101,9 +101,29 @@
 {% endblock footer_list %}
 
 {% block js_page %}
-  <script>
-    $(function(){
-      $('#'+'{{ table_id }}').DataTable()
+<script>
+  $(function(){
+    $('#'+'{{ table_id }}').DataTable({
+      pageLength: 5,
+      lengthMenu: [[5,20,100,-1],["Pouco","Médio","Muito","Todos"]],
+      language: { 
+        info: "Mostrando _START_ a _END_ de _TOTAL_ registros", 
+        infoEmpty: "Sem registros", 
+        infoFiltered: 'filtrados de _MAX_ registros', 
+        emptyTable: "Nenhum registro avaliado na tabela", 
+        zeroRecords: "Nenhum registro encontrado para a busca", 
+        lengthMenu: "Mostrando _MENU_ registros", 
+        searchPlaceHolder: 'Filtro', 
+        search: 'Digite sua busca:', 
+        paginate: { 
+            first: '<<', 
+            last: '>>', 
+            previous: '<', 
+            next: '>' 
+        } 
+      } 
     })
-  </script>
-  {% endblock js_page %}
+    
+  })
+</script>
+{% endblock js_page %}

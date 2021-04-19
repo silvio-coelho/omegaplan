@@ -20,7 +20,7 @@
                 <div class="btn-group">
                   {% comment %} <a href="{% url 'bases:pais_edit' item.id %}" class="btn btn-warning btn-circle" role="button"><i class="far fa-edit"></i></a> {% endcomment %}
                   <a class="btn btn-success btn-circle" onclick="return abrir_modal('{% url 'bases:pais_edit' item.id %}')" href="#"><i class="far fa-edit"></i></a>
-                  <a href="#" class="btn btn-danger btn-circle" role="button"><i class="far fa-trash-alt"></i></a>
+                  <a href="{% url 'bases:pais_delete' item.id %}" class="btn btn-danger btn-circle" role="button"><i class="far fa-trash-alt"></i></a>
                 </div>
             </td>
         </tr>
