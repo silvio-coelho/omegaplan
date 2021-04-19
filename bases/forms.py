@@ -5,9 +5,9 @@ from .models import Pais, Estado, Cidade
 class PaisForm(forms.ModelForm):
     class Meta:
         model=Pais
-        fields=['pais', 'ativo']
-        labels={'pais':'Pais', 'ativo':'Ativo'}
-        widget={'pais':forms.TextInput}
+        fields=['pais', 'ddi', 'sigla', 'usuario_criou', 'ativo']
+        labels={'pais':'Pais', 'ddi':'Ddi', 'sigla':'Sigla', 'ativo':'Ativo'}
+        widget={'pais':forms.TextInput, 'ddi':forms.TextInput, 'sigla':forms.TextInput}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -18,9 +18,9 @@ class PaisForm(forms.ModelForm):
 class EstadoForm(forms.ModelForm):
     class Meta:
         model=Estado
-        fields=['estado', 'ativo']
-        labels={'estado':'Estado', 'ativo':'Ativo'}
-        widget={'estado':forms.TextInput}
+        fields=['pais', 'estado', 'uf', 'ativo']
+        labels={'pais':'Pais', 'estado':'Estado', 'uf':'Uf', 'ativo':'Ativo'}
+        widget={'pais':forms.ModelChoiceField, 'estado':forms.TextInput, 'uf':forms.TextInput}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -31,9 +31,9 @@ class EstadoForm(forms.ModelForm):
 class CidadeForm(forms.ModelForm):
     class Meta:
         model=Cidade
-        fields=['cidade', 'ativo']
-        labels={'cidade':'Cidade', 'ativo':'Ativo'}
-        widget={'cidade':forms.TextInput}
+        fields=['estado', 'cidade', 'codigo_municipio','ativo']
+        labels={'estado':'Estado', 'cidade':'Cidade', 'codigo_municipio':'Codigo do Municipio', 'ativo':'Ativo'}
+        widget={'estado':forms.ModelChoiceField, 'cidade':forms.TextInput, 'codigo_municipio':forms.IntegerField}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
