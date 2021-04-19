@@ -11,19 +11,27 @@
 <!-- Site wrapper -->
 <div class="wrapper">
   <!-- Navbar -->
+  {% block navbar %}
   {% include 'parciais/navbar.html' %}
+  {% endblock navbar %}
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
+  {% block menu %}  
   {% include 'parciais/menu.html' %}
+  {% endblock menu %}  
 
   <!-- Content Wrapper. Contains page content -->
   {% block content %}
 
   {% endblock content %}
-  <!-- /.content-wrapper -->
 
+  {% block login %}
+  {% endblock login %}
+  <!-- /.content-wrapper -->
+  {% block footer %}
   {% include 'parciais/footer.html' %}
+  {% endblock footer %}  
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

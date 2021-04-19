@@ -16,16 +16,17 @@ from . models import Pais
 from . forms import PaisForm
 
 
-class Home(generic.TemplateView):
+class Home(LoginRequiredMixin, generic.TemplateView):
     template_name = 'parciais/dashboard.html'
+    login_url = "bases:login"   
 
 
-class PaisView(generic.ListView):
+class PaisView(LoginRequiredMixin, generic.ListView):
     #permission_required = "inv.view_categoria"
     model = Pais
     template_name = "bases/paises_list.html"
     context_object_name = "obj"
-    #login_url = "bases:login"    
+    login_url = "bases:login"    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -39,13 +40,13 @@ class PaisView(generic.ListView):
     
 
 
-class PaisNew(SuccessMessageMixin, generic.CreateView):
+class PaisNew(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
     model = Pais
     template_name = 'bases/pais_form.html'
     context_object_name = "obj"
     form_class = PaisForm
     success_url = reverse_lazy("bases:pais_list")
-    #login_url = "bases:login"
+    login_url = "bases:login"
     success_message = "País criado com sucesso!"
 
     def post(self, request, *args, **kwargs):
@@ -73,13 +74,13 @@ class PaisNew(SuccessMessageMixin, generic.CreateView):
         return context
 
 
-class PaisEdit(SuccessMessageMixin, generic.UpdateView):
+class PaisEdit(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     model = Pais
     template_name = 'bases/pais_form.html'
     context_object_name = 'obj'
     form_class = PaisForm
     success_url = reverse_lazy("bases:pais_list")
-    #login_url='bases:login'
+    login_url='bases:login'
     success_message = "País atualizado com sucesso!"
 
     def dispatch(self, request, *args, **kwargs):
