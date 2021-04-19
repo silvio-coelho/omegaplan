@@ -18,6 +18,8 @@ class ClasseModelo(models.Model):
 
 class Pais(ClasseModelo):
     pais = models.CharField(max_length=100, unique=True)
+    ddi = models.CharField(max_length=3)
+    sigla = models.CharField(max_length=5)
 
     def __str__(self):
         return '{}'.format(self.pais)
@@ -32,12 +34,15 @@ class Pais(ClasseModelo):
 
 class Estado(ClasseModelo):
     estado = models.CharField(max_length=100, unique=True)
+    uf = models.CharField(max_length=2)
+    pais = models.ForeignKey(Pais, on_delete=models.PROTECT)
 
     def __str__(self):
         return '{}' .format(self.estado)
     
     def save(self):
         self.estado = self.estado.upper()
+        self.uf = self.uf.upper()
         super(Estado, self).save()
     
     class Meta:
@@ -46,6 +51,8 @@ class Estado(ClasseModelo):
 
 class Cidade(ClasseModelo):
     cidade = models.CharField(max_length=100, unique=True)
+    estado = models.ForeignKey(Estado, on_delete=models.PROTECT)
+    codigo_municipio = models.IntegerField("Código Municipio (IBGE)", default=0, help_text="Necessário para emitir NFS-e.")
 
     def __str__(self):
         return '{}' .format(self.cidade)
