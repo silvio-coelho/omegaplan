@@ -39,7 +39,6 @@ class PaisView(LoginRequiredMixin, generic.ListView):
         return context
     
 
-
 class PaisNew(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
     model = Pais
     template_name = 'bases/pais_form.html'
@@ -74,11 +73,11 @@ class PaisNew(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
         return context
 
 
-class PaisEdit(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
+""" class PaisEdit(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     def form_valid(self, form):
         form.instance.usuario_criou = self.request.user #aqui não está relacionado por isso o id
         return super().form_valid(form)
-
+ """
   
 class PaisEdit(SuccessMessageMixin, generic.UpdateView):
     model = Pais
@@ -100,7 +99,7 @@ class PaisEdit(SuccessMessageMixin, generic.UpdateView):
             action = request.POST['action']
             if action == 'update':
                 form = self.get_form()
-                form.instance.usuario_modificou = self.request.user.id
+                form.instance.usuario_modificou_id = self.request.user.id
                 data = form.save()
                 data = model_to_dict(data)
             else:
