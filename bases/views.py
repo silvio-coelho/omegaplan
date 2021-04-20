@@ -134,6 +134,8 @@ class PaisDelete(LoginRequiredMixin, generic.DeleteView):
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
+        print('entrou no post')
+        print(request.POST)
         data = {}
         try:
             self.object.delete()

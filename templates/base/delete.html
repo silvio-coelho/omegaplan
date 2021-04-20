@@ -54,13 +54,14 @@
     </div>
     </div>
     {% endblock %}
+
+{% block js_page %}    
 <script>
     $('#form_delete').on('submit', function (e) {
-        console.log(window.location.pathname)
         e.preventDefault();
         var parameters = new FormData(this);
         
-        let url = window.location.pathname + '{{object.id}}'
+        let url = window.location.pathname //+ '{{object.id}}'
         submit_with_ajax(url, 'Notificação', 'Tem certeza que quer apagar o siguiente registro?', parameters, function () {
             Swal.fire({
                 title: 'Alerta',
@@ -76,3 +77,4 @@
         });
     });
 </script>
+{% endblock js_page %}

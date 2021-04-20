@@ -40,19 +40,20 @@ function submit_with_ajax(url, title, content, parameters, callback) {
                         processData: false,
                         contentType: false,
                     }).done(function (data) {
-                        console.log(data);
                         if (!data.hasOwnProperty('error')) {
                             Swal.fire({
                                 title: 'Sucesso',
                                 text: 'Operação realizada!',
-                                icon: 'success'
+                                icon: 'success',
+                                timer: 2000,
                             });
                             callback(data);
                             return false;
                         }
                         message_error(data.error);
                     }).fail(function (jqXHR, textStatus, errorThrown) {
-                        alert(textStatus + ': ' + errorThrown);
+                        //alert(textStatus + ': ' + errorThrown);
+                        mensagem(errorThrown)
                     }).always(function (data) {
 
                     });
