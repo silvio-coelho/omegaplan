@@ -5,14 +5,24 @@ from .models import Pais, Estado, Cidade
 class PaisForm(forms.ModelForm):
     class Meta:
         model=Pais
-        fields=['pais', 'ddi', 'sigla', 'usuario_criou', 'ativo']
-        labels={'pais':'Pais', 'ddi':'Ddi', 'sigla':'Sigla', 'ativo':'Ativo'}
-        widget={'pais':forms.TextInput, 'ddi':forms.TextInput, 'sigla':forms.TextInput}
+        #fields=['pais', 'ddi', 'sigla', 'usuario_criou', 'ativo']
+        fields=['pais', 'ddi', 'sigla', 'ativo']
+        labels={'pais':'Pais', 'ddi':'Ddi', 'sigla':'Sigla', 'usuario_criou': 'Criado Por', 'ativo':'Ativo'}
+        widget={
+            'pais':forms.TextInput, 
+            'ddi':forms.TextInput, 
+            'sigla':forms.TextInput,
+            'ativo': forms.CheckboxInput(
+                attrs={
+                    'class': 'text-align-left col-md-1'
+                })
+            }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in iter(self.fields):
             self.fields[field].widget.attrs.update({'class':'form-control'})
+        self.fields['ativo'].widget.attrs.update({'class':'form-control text-align-left col-md-1'})
 
 
 class EstadoForm(forms.ModelForm):
