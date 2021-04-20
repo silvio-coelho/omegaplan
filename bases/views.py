@@ -73,11 +73,19 @@ class PaisNew(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
         return context
 
 
+<<<<<<< HEAD
 """ class PaisEdit(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     def form_valid(self, form):
         form.instance.usuario_criou = self.request.user #aqui não está relacionado por isso o id
         return super().form_valid(form)
  """
+=======
+# class PaisEdit(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
+#     def form_valid(self, form):
+#         form.instance.usuario_criou = self.request.user #aqui não está relacionado por isso o id
+#         return super().form_valid(form)
+
+>>>>>>> alter-andrew
   
 class PaisEdit(SuccessMessageMixin, generic.UpdateView):
     model = Pais
@@ -147,6 +155,9 @@ class PaisDelete(LoginRequiredMixin, generic.DeleteView):
         context['entity'] = 'País'
         context['list_url'] = self.success_url
         return context
+    # def form_valid(self, form):
+    #     form.instance.usuario_modificou = self.request.user #aqui não está relacionado por isso o id
+    #     return super().form_valid(form)
 
 
 class EstadoView(generic.ListView):
