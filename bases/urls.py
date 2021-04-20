@@ -1,6 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from bases.views import PaisNew, Home, PaisView, PaisEdit, EstadoNew, EstadoView, EstadoEdit, CidadeNew, CidadeView, CidadeEdit
+from bases.views import Home, PaisNew, PaisView, PaisEdit, PaisDelete, \
+    EstadoNew, EstadoView, EstadoEdit, CidadeNew, CidadeView, CidadeEdit
 
 
 urlpatterns = [

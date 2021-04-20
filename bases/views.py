@@ -121,6 +121,34 @@ class PaisEdit(SuccessMessageMixin, generic.UpdateView):
         return super().form_valid(form)
  """
 
+
+class PaisDelete(LoginRequiredMixin, generic.DeleteView):
+    model = Pais
+    template_name = 'bases/pais_delete.html'
+    success_url = reverse_lazy('bases:pais_list')
+    #permission_required = 'delete_pais'
+    url_redirect = success_url
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            self.object.delete()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Apagar um país'
+        context['entity'] = 'País'
+        context['list_url'] = self.success_url
+        return context
+
+
 class EstadoView(generic.ListView):
     #permission_required = "inv.view_categoria"
     model = Estado

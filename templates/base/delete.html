@@ -1,7 +1,17 @@
 {% extends 'base/base.html' %}
-{% load widget_tweaks %}
+
+
+
+
+
 {% block content %}
-    <form method="post" action=".">
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+
+    <form id="form_delete" method="post" action=".">
         <div class="card card-primary">
             <div class="card-header">
                 <h3 class="card-title">
@@ -40,23 +50,29 @@
             </div>
         </div>
     </form>
-    <script>
-        $('form').on('submit', function (e) {
-            e.preventDefault();
-            var parameters = new FormData(this);
-            submit_with_ajax(window.location.pathname, 'Notificação', 'Tem certeza que quer apagar o siguiente registro?', parameters, function () {
-                Swal.fire({
-                    title: 'Alerta',
-                    text: 'Registro eliminado corretamente',
-                    icon: 'success',
-                    timer: 2000,
-                    onClose: () => {
-                        location.href = '{{ list_url }}';
-                    }
-                }).then((result) => {
+    </div>
+    </div>
+    </div>
+    {% endblock %}
+<script>
+    $('#form_delete').on('submit', function (e) {
+        console.log(window.location.pathname)
+        e.preventDefault();
+        var parameters = new FormData(this);
+        
+        let url = window.location.pathname + '{{object.id}}'
+        submit_with_ajax(url, 'Notificação', 'Tem certeza que quer apagar o siguiente registro?', parameters, function () {
+            Swal.fire({
+                title: 'Alerta',
+                text: 'Registro eliminado corretamente',
+                icon: 'success',
+                timer: 2000,
+                onClose: () => {
+                    location.href = '{{ list_url }}';
+                }
+            }).then((result) => {
 
-                });
             });
         });
-    </script>
-{% endblock %}
+    });
+</script>
