@@ -15,6 +15,70 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='Cidade',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('ativo', models.BooleanField(default=True)),
+                ('data_criou', models.DateTimeField(auto_now_add=True)),
+                ('data_editou', models.DateTimeField(auto_now=True)),
+                ('usuario_modificou', models.IntegerField(blank=True, null=True)),
+                ('cidade', models.CharField(max_length=100, unique=True)),
+                ('ddd', models.CharField(max_length=3)),
+                ('sigla', models.CharField(max_length=5)),
+                ('codigo_municipio', models.IntegerField(default=0, help_text='Necessário para emitir NFS-e.', verbose_name='Código Municipio (IBGE)')),
+            ],
+            options={
+                'verbose_name_plural': 'Cidades',
+            },
+        ),
+        migrations.CreateModel(
+            name='Imovel',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('ativo', models.BooleanField(default=True)),
+                ('data_criou', models.DateTimeField(auto_now_add=True)),
+                ('data_editou', models.DateTimeField(auto_now=True)),
+                ('usuario_modificou', models.IntegerField(blank=True, null=True)),
+                ('imovel', models.CharField(max_length=100, unique=True)),
+                ('endereco', models.CharField(max_length=100)),
+            ],
+            options={
+                'verbose_name_plural': 'Imóveis',
+            },
+        ),
+        migrations.CreateModel(
+            name='TipoProjeto',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('ativo', models.BooleanField(default=True)),
+                ('data_criou', models.DateTimeField(auto_now_add=True)),
+                ('data_editou', models.DateTimeField(auto_now=True)),
+                ('usuario_modificou', models.IntegerField(blank=True, null=True)),
+                ('tipo_projeto', models.CharField(max_length=100, unique=True)),
+                ('usuario_criou', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'verbose_name_plural': 'Tipos de Projetos',
+            },
+        ),
+        migrations.CreateModel(
+            name='Projeto',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('ativo', models.BooleanField(default=True)),
+                ('data_criou', models.DateTimeField(auto_now_add=True)),
+                ('data_editou', models.DateTimeField(auto_now=True)),
+                ('usuario_modificou', models.IntegerField(blank=True, null=True)),
+                ('projeto', models.CharField(max_length=100, unique=True)),
+                ('imovel', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='bases.imovel')),
+                ('tipo_projeto', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='bases.tipoprojeto')),
+                ('usuario_criou', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'verbose_name_plural': 'Projetos',
+            },
+        ),
+        migrations.CreateModel(
             name='Pais',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -30,6 +94,49 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name_plural': 'Paises',
             },
+        ),
+        migrations.CreateModel(
+            name='OrgaoPublico',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('ativo', models.BooleanField(default=True)),
+                ('data_criou', models.DateTimeField(auto_now_add=True)),
+                ('data_editou', models.DateTimeField(auto_now=True)),
+                ('usuario_modificou', models.IntegerField(blank=True, null=True)),
+                ('orgao_publico', models.CharField(max_length=100, unique=True)),
+                ('cidade', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='bases.cidade')),
+                ('usuario_criou', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'verbose_name_plural': 'Órgãos Públicos',
+            },
+        ),
+        migrations.CreateModel(
+            name='Obra',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('ativo', models.BooleanField(default=True)),
+                ('data_criou', models.DateTimeField(auto_now_add=True)),
+                ('data_editou', models.DateTimeField(auto_now=True)),
+                ('usuario_modificou', models.IntegerField(blank=True, null=True)),
+                ('obra', models.CharField(max_length=100, unique=True)),
+                ('status_obra', models.CharField(choices=[('Exe', 'Em execução'), ('Fin', 'Finalizada'), ('Par', 'Paralizada')], max_length=3)),
+                ('projeto', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='bases.projeto')),
+                ('usuario_criou', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'verbose_name_plural': 'Obras',
+            },
+        ),
+        migrations.AddField(
+            model_name='imovel',
+            name='orgao_publico',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='bases.orgaopublico'),
+        ),
+        migrations.AddField(
+            model_name='imovel',
+            name='usuario_criou',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
         ),
         migrations.CreateModel(
             name='Estado',
@@ -48,21 +155,31 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'Estados',
             },
         ),
+        migrations.AddField(
+            model_name='cidade',
+            name='estado',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='bases.estado'),
+        ),
+        migrations.AddField(
+            model_name='cidade',
+            name='usuario_criou',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+        ),
         migrations.CreateModel(
-            name='Cidade',
+            name='Arquivo',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('ativo', models.BooleanField(default=True)),
                 ('data_criou', models.DateTimeField(auto_now_add=True)),
                 ('data_editou', models.DateTimeField(auto_now=True)),
                 ('usuario_modificou', models.IntegerField(blank=True, null=True)),
-                ('cidade', models.CharField(max_length=100, unique=True)),
-                ('codigo_municipio', models.IntegerField(default=0, help_text='Necessário para emitir NFS-e.', verbose_name='Código Municipio (IBGE)')),
-                ('estado', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='bases.estado')),
+                ('titulo', models.CharField(max_length=100, unique=True)),
+                ('arquivo', models.FileField(upload_to='arquivos')),
+                ('projeto', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='bases.projeto')),
                 ('usuario_criou', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'verbose_name_plural': 'Cidades',
+                'verbose_name_plural': 'Arquivos',
             },
         ),
     ]
