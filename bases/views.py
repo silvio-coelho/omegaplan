@@ -12,8 +12,8 @@ from django.forms import model_to_dict
 
 from django.views import generic
 from django.urls import reverse_lazy
-from . models import Pais, Estado, Cidade, OrgaoPublico, Imovel
-from . forms import PaisForm, EstadoForm, CidadeForm, OrgaoPublicoForm, ImovelForm
+from . models import Pais, Estado, Cidade, OrgaoPublico, Imovel, TipoProjeto, Projeto, Obra
+from . forms import PaisForm, EstadoForm, CidadeForm, OrgaoPublicoForm, ImovelForm, TipoProjetoForm, ProjetoForm, ObraForm
 
 
 class Home(LoginRequiredMixin, generic.TemplateView):
@@ -627,5 +627,359 @@ class ImovelDelete(LoginRequiredMixin, generic.DeleteView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Apagar um Imóvel'
         context['entity'] = 'Imóvel'
+        context['list_url'] = self.success_url
+        return context
+
+
+class TipoProjetoView(LoginRequiredMixin, generic.ListView):
+    #permission_required = "inv.view_categoria"
+    model = TipoProjeto
+    template_name = "bases/tiposprojeto_list.html"
+    context_object_name = "obj"
+    login_url = "bases:login"    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title_page'] = "Lista de Tipos de projeto"
+        context['entity'] = "Tipo de projeto"
+        context['breadcrumb'] = "Tipos de projeto"
+        context['list_url'] = reverse_lazy("bases:tipoprojeto_list")
+        context['add_url'] = reverse_lazy("bases:tipoprojeto_new")
+        context['table_id'] = 'tabela_tiposprojeto'
+        return context
+    
+
+class TipoProjetoNew(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
+    model = TipoProjeto
+    template_name = 'bases/tipoprojeto_form.html'
+    context_object_name = "obj"
+    form_class = TipoProjetoForm
+    success_url = reverse_lazy("bases:tipoprojeto_list")
+    login_url = "bases:login"
+    success_message = "Tipo de projeto criado com sucesso!"
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add':
+                form = self.get_form()
+                form.instance.usuario_criou = self.request.user
+                data = form.save()
+                data = model_to_dict(data)
+            else:
+                data['error'] = 'Não foi informado uma ação'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Novo Tipo de projeto"
+        context['entity'] = "Tipo de projeto"
+        context['list_url'] = self.success_url
+        context['action'] = 'add'
+        return context
+
+  
+class TipoProjetoEdit(SuccessMessageMixin, generic.UpdateView):
+    model = TipoProjeto
+    template_name = 'bases/tipoprojeto_form.html'
+    context_object_name = 'obj'
+    form_class = TipoProjetoForm
+    success_url = reverse_lazy("bases:tipoprojeto_list")
+    login_url='bases:login'
+    success_message = "Tipo de projeto atualizado com sucesso!"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'update':
+                form = self.get_form()
+                form.instance.usuario_modificou_id = self.request.user.id
+                data = form.save()
+                data = model_to_dict(data)
+            else:
+                data['error'] = 'Não foi informado uma ação'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Editar Tipo de projeto"
+        context['entity'] = "Tipo de projeto"
+        context['list_url'] = self.success_url
+        context['action'] = 'update'
+        return context
+
+
+class TipoProjetoDelete(LoginRequiredMixin, generic.DeleteView):
+    model = TipoProjeto
+    template_name = 'bases/tipoprojeto_delete.html'
+    success_url = reverse_lazy('bases:tipoprojeto_list')
+    url_redirect = success_url
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        print('entrou no post')
+        print(request.POST)
+        data = {}
+        try:
+            self.object.delete()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Apagar um Tipo de projeto'
+        context['entity'] = 'Tipo de projeto'
+        context['list_url'] = self.success_url
+        return context
+
+
+class ProjetoView(LoginRequiredMixin, generic.ListView):
+    #permission_required = "inv.view_categoria"
+    model = Projeto
+    template_name = "bases/projetos_list.html"
+    context_object_name = "obj"
+    login_url = "bases:login"    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title_page'] = "Lista de Projetos"
+        context['entity'] = "Projeto"
+        context['breadcrumb'] = "Projetos"
+        context['list_url'] = reverse_lazy("bases:projeto_list")
+        context['add_url'] = reverse_lazy("bases:projeto_new")
+        context['table_id'] = 'tabela_projetos'
+        return context
+    
+
+class ProjetoNew(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
+    model = Projeto
+    template_name = 'bases/projeto_form.html'
+    context_object_name = "obj"
+    form_class = ProjetoForm
+    success_url = reverse_lazy("bases:projeto_list")
+    login_url = "bases:login"
+    success_message = "Projeto criado com sucesso!"
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add':
+                form = self.get_form()
+                form.instance.usuario_criou = self.request.user
+                data = form.save()
+                data = model_to_dict(data)
+            else:
+                data['error'] = 'Não foi informado uma ação'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Novo Projeto"
+        context['entity'] = "Projeto"
+        context['list_url'] = self.success_url
+        context['action'] = 'add'
+        return context
+
+  
+class ProjetoEdit(SuccessMessageMixin, generic.UpdateView):
+    model = Projeto
+    template_name = 'bases/projeto_form.html'
+    context_object_name = 'obj'
+    form_class = ProjetoForm
+    success_url = reverse_lazy("bases:projeto_list")
+    login_url='bases:login'
+    success_message = "Projeto atualizado com sucesso!"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'update':
+                form = self.get_form()
+                form.instance.usuario_modificou_id = self.request.user.id
+                data = form.save()
+                data = model_to_dict(data)
+            else:
+                data['error'] = 'Não foi informado uma ação'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Editar Projeto"
+        context['entity'] = "Projeto"
+        context['list_url'] = self.success_url
+        context['action'] = 'update'
+        return context
+
+
+class ProjetoDelete(LoginRequiredMixin, generic.DeleteView):
+    model = Projeto
+    template_name = 'bases/projeto_delete.html'
+    success_url = reverse_lazy('bases:projeto_list')
+    url_redirect = success_url
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        print('entrou no post')
+        print(request.POST)
+        data = {}
+        try:
+            self.object.delete()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Apagar um Projeto'
+        context['entity'] = 'Projeto'
+        context['list_url'] = self.success_url
+        return context
+
+
+class ObraView(LoginRequiredMixin, generic.ListView):
+    #permission_required = "inv.view_categoria"
+    model = Obra
+    template_name = "bases/obras_list.html"
+    context_object_name = "obj"
+    login_url = "bases:login"    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title_page'] = "Lista de Obras"
+        context['entity'] = "Obra"
+        context['breadcrumb'] = "Obras"
+        context['list_url'] = reverse_lazy("bases:obra_list")
+        context['add_url'] = reverse_lazy("bases:obra_new")
+        context['table_id'] = 'tabela_obras'
+        return context
+    
+
+class ObraNew(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
+    model = Obra
+    template_name = 'bases/obra_form.html'
+    context_object_name = "obj"
+    form_class = ObraForm
+    success_url = reverse_lazy("bases:obra_list")
+    login_url = "bases:login"
+    success_message = "Obra criada com sucesso!"
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add':
+                form = self.get_form()
+                form.instance.usuario_criou = self.request.user
+                data = form.save()
+                data = model_to_dict(data)
+            else:
+                data['error'] = 'Não foi informado uma ação'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Nova Obra"
+        context['entity'] = "Obra"
+        context['list_url'] = self.success_url
+        context['action'] = 'add'
+        return context
+
+  
+class ObraEdit(SuccessMessageMixin, generic.UpdateView):
+    model = Obra
+    template_name = 'bases/obra_form.html'
+    context_object_name = 'obj'
+    form_class = ObraForm
+    success_url = reverse_lazy("bases:obra_list")
+    login_url='bases:login'
+    success_message = "Obra atualizada com sucesso!"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'update':
+                form = self.get_form()
+                form.instance.usuario_modificou_id = self.request.user.id
+                data = form.save()
+                data = model_to_dict(data)
+            else:
+                data['error'] = 'Não foi informado uma ação'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Editar Obra"
+        context['entity'] = "Obra"
+        context['list_url'] = self.success_url
+        context['action'] = 'update'
+        return context
+
+
+class ObraDelete(LoginRequiredMixin, generic.DeleteView):
+    model = Obra
+    template_name = 'bases/obra_delete.html'
+    success_url = reverse_lazy('bases:obra_list')
+    url_redirect = success_url
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        print('entrou no post')
+        print(request.POST)
+        data = {}
+        try:
+            self.object.delete()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Apagar uma Obra'
+        context['entity'] = 'Obra'
         context['list_url'] = self.success_url
         return context

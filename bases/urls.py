@@ -3,7 +3,9 @@ from django.contrib.auth import views as auth_views
 from bases.views import Home, PaisNew, PaisView, PaisEdit, PaisDelete, \
     EstadoNew, EstadoView, EstadoEdit, EstadoDelete, CidadeNew, CidadeView, \
     CidadeEdit, CidadeDelete, OrgaoPublicoNew, OrgaoPublicoView, OrgaoPublicoEdit, \
-    OrgaoPublicoDelete, ImovelNew, ImovelView, ImovelEdit, ImovelDelete
+    OrgaoPublicoDelete, ImovelNew, ImovelView, ImovelEdit, ImovelDelete, TipoProjetoNew, \
+    TipoProjetoView, TipoProjetoEdit, TipoProjetoDelete, ProjetoNew, ProjetoView, ProjetoEdit, \
+    ProjetoDelete, ObraNew, ObraView, ObraEdit, ObraDelete
 
 
 urlpatterns = [
@@ -35,4 +37,19 @@ urlpatterns = [
     path('imovel/new', ImovelNew.as_view(), name='imovel_new'),
     path('imovel/edit/<int:pk>', ImovelEdit.as_view(), name='imovel_edit'),
     path('imovel/delete/<int:pk>', ImovelDelete.as_view(), name='imovel_delete'),
+
+    path('tipoprojeto/', TipoProjetoView.as_view(), name='tipoprojeto_list'),
+    path('tipoprojeto/new', TipoProjetoNew.as_view(), name='tipoprojeto_new'),
+    path('tipoprojeto/edit/<int:pk>', TipoProjetoEdit.as_view(), name='tipoprojeto_edit'),
+    path('tipoprojeto/delete/<int:pk>', TipoProjetoDelete.as_view(), name='tipoprojeto_delete'),
+
+    path('projeto/', ProjetoView.as_view(), name='projeto_list'),
+    path('projeto/new', ProjetoNew.as_view(), name='projeto_new'),
+    path('projeto/edit/<int:pk>', ProjetoEdit.as_view(), name='projeto_edit'),
+    path('projeto/delete/<int:pk>', ProjetoDelete.as_view(), name='projeto_delete'),
+
+    path('obra/', ObraView.as_view(), name='obra_list'),
+    path('obra/new', ObraNew.as_view(), name='obra_new'),
+    path('obra/edit/<int:pk>', ObraEdit.as_view(), name='obra_edit'),
+    path('obra/delete/<int:pk>', ObraDelete.as_view(), name='obra_delete'),
 ]
