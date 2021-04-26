@@ -1,7 +1,9 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from bases.views import Home, PaisNew, PaisView, PaisEdit, PaisDelete, \
-    EstadoNew, EstadoView, EstadoEdit, CidadeNew, CidadeView, CidadeEdit
+    EstadoNew, EstadoView, EstadoEdit, EstadoDelete, CidadeNew, CidadeView, \
+    CidadeEdit, CidadeDelete, OrgaoPublicoNew, OrgaoPublicoView, OrgaoPublicoEdit, \
+    OrgaoPublicoDelete, ImovelNew, ImovelView, ImovelEdit, ImovelDelete
 
 
 urlpatterns = [
@@ -17,8 +19,20 @@ urlpatterns = [
     path('estados/', EstadoView.as_view(), name='estado_list'),
     path('estados/new', EstadoNew.as_view(), name='estado_new'),
     path('estados/edit/<int:pk>', EstadoEdit.as_view(), name='estado_edit'),
+    path('estados/delete/<int:pk>', EstadoDelete.as_view(), name='estado_delete'),
 
     path('cidades/', CidadeView.as_view(), name='cidade_list'),
     path('cidades/new', CidadeNew.as_view(), name='cidade_new'),
     path('cidades/edit/<int:pk>', CidadeEdit.as_view(), name='cidade_edit'),
+    path('cidades/delete/<int:pk>', CidadeDelete.as_view(), name='cidade_delete'),
+
+    path('orgaospublicos/', OrgaoPublicoView.as_view(), name='orgaopublico_list'),
+    path('orgaospublicos/new', OrgaoPublicoNew.as_view(), name='orgaopublico_new'),
+    path('orgaospublicos/edit/<int:pk>', OrgaoPublicoEdit.as_view(), name='orgaopublico_edit'),
+    path('orgaospublicos/delete/<int:pk>', OrgaoPublicoDelete.as_view(), name='orgaopublico_delete'),
+
+    path('imovel/', ImovelView.as_view(), name='imovel_list'),
+    path('imovel/new', ImovelNew.as_view(), name='imovel_new'),
+    path('imovel/edit/<int:pk>', ImovelEdit.as_view(), name='imovel_edit'),
+    path('imovel/delete/<int:pk>', ImovelDelete.as_view(), name='imovel_delete'),
 ]
