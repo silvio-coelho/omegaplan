@@ -3,6 +3,10 @@
 {% block head_table %}
   <th>Id</th>
   <th>Cidade</th>
+  <th>Ddd</th>
+  <th>Sigla</th>
+  <th>Código do Municipio</th>
+  <th>Estado</th>
   <th>Ativo</th>
   <th>Criado</th>
   <th>Modificado</th>
@@ -14,6 +18,10 @@
         <tr>
             <td>{{item.id}}</td>
             <td>{{item.cidade}}</td>
+            <td>{{item.ddd}}</td>
+            <td>{{item.sigla}}</td>
+            <td>{{item.codigo_municipio}}</td>
+            <td>{{item.estado}}</td>
             <td>{{item.ativo|yesno:"Ativo,Inativo"}}</td>
             <td>{{item.data_criou|date:"d/m/Y H:i:s"}}</td>
             <td>{{item.data_editou|date:"d/m/Y H:i:s"}}</td>

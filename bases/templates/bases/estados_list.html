@@ -3,6 +3,8 @@
 {% block head_table %}
   <th>Id</th>
   <th>Estado</th>
+  <th>Uf</th>
+  <th>Pais</th>
   <th>Ativo</th>
   <th>Criado</th>
   <th>Modificado</th>
@@ -14,6 +16,8 @@
         <tr>
             <td>{{item.id}}</td>
             <td>{{item.estado}}</td>
+            <td>{{item.uf}}</td>
+            <td>{{item.pais}}</td>
             <td>{{item.ativo|yesno:"Ativo,Inativo"}}</td>
             <td>{{item.data_criou|date:"d/m/Y H:i:s"}}</td>
             <td>{{item.data_editou|date:"d/m/Y H:i:s"}}</td>
