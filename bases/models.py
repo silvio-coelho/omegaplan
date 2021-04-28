@@ -155,9 +155,9 @@ class Obra(ClasseModelo):
     
     
 class Arquivo(ClasseModelo):
-    titulo = models.CharField(max_length=100)
+    titulo = models.CharField(max_length=100, unique=True)
     projeto = models.ForeignKey(Projeto, on_delete=models.PROTECT)
-    arquivo = models.FileField(upload_to='arquivos_de_projeto/')
+    arquivo = models.FileField(upload_to='arquivos')
 
     def __str__(self):
         return '{}' .format(self.titulo + ' DE ' + self.projeto.__str__())

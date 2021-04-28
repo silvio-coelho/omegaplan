@@ -1,15 +1,11 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-
-from django.conf import settings
-from django.conf.urls.static import static
-
 from bases.views import Home, PaisNew, PaisView, PaisEdit, PaisDelete, \
     EstadoNew, EstadoView, EstadoEdit, EstadoDelete, CidadeNew, CidadeView, \
     CidadeEdit, CidadeDelete, OrgaoPublicoNew, OrgaoPublicoView, OrgaoPublicoEdit, \
     OrgaoPublicoDelete, ImovelNew, ImovelView, ImovelEdit, ImovelDelete, TipoProjetoNew, \
     TipoProjetoView, TipoProjetoEdit, TipoProjetoDelete, ProjetoNew, ProjetoView, ProjetoEdit, \
-    ProjetoDelete, ObraNew, ObraView, ObraEdit, ObraDelete, UploadView
+    ProjetoDelete, ObraNew, ObraView, ObraEdit, ObraDelete
 
 
 urlpatterns = [
@@ -56,10 +52,4 @@ urlpatterns = [
     path('obra/new', ObraNew.as_view(), name='obra_new'),
     path('obra/edit/<int:pk>', ObraEdit.as_view(), name='obra_edit'),
     path('obra/delete/<int:pk>', ObraDelete.as_view(), name='obra_delete'),
-
-    path('arquivo/upload', UploadView, name ='upload_view')
 ]
-
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
