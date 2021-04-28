@@ -106,9 +106,9 @@ class ProjetoForm(forms.ModelForm):
 class ObraForm(forms.ModelForm):
     class Meta:
         model=Obra
-        fields=['projeto', 'obra', 'ativo']
-        labels={'projeto':'Projeto', 'obra':'Obra', 'ativo':'Ativo'}
-        widget={'projeto':forms.ModelChoiceField, 'obra':forms.TextInput}
+        fields=['projeto', 'obra', 'status_obra', 'ativo']
+        labels={'projeto':'Projeto', 'obra':'Obra', 'status_obra':'Status da Obra', 'ativo':'Ativo'}
+        widget={'projeto':forms.ModelChoiceField, 'obra':forms.TextInput, 'status_obra':forms.Select}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
