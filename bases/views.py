@@ -12,8 +12,8 @@ from django.forms import model_to_dict
 
 from django.views import generic
 from django.urls import reverse_lazy
-from . models import Pais, Estado, Cidade, OrgaoPublico, Imovel, TipoProjeto, Projeto, Obra
-from . forms import PaisForm, EstadoForm, CidadeForm, OrgaoPublicoForm, ImovelForm, TipoProjetoForm, ProjetoForm, ObraForm
+from . models import Pais, Estado, Cidade, OrgaoPublico, Imovel, TipoProjeto, Projeto, Obra, Arquivo
+from . forms import PaisForm, EstadoForm, CidadeForm, OrgaoPublicoForm, ImovelForm, TipoProjetoForm, ProjetoForm, ObraForm, ArquivoForm
 
 
 class Home(LoginRequiredMixin, generic.TemplateView):
@@ -983,3 +983,18 @@ class ObraDelete(LoginRequiredMixin, generic.DeleteView):
         context['entity'] = 'Obra'
         context['list_url'] = self.success_url
         return context
+
+
+def UploadView(request):
+    if request.method == 'POST':
+        form = ArquivoForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.instance.usuario_criou = request.user
+            form.save()
+            return HttpResponse('The file is saved')
+    else:
+        form = ArquivoForm()
+        context = {
+            'form':form,
+        }
+    return render(request, 'bases/upload_arquivo.html', context)
