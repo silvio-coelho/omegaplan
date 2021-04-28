@@ -2,11 +2,9 @@
 
 {% block head_table %}
   <th>Id</th>
-  <th>Cidade</th>
-  <th>Ddd</th>
-  <th>Sigla</th>
-  <th>Código do Municipio</th>
-  <th>Estado</th>
+  <th>Projeto</th>
+  <th>Imóvel</th>
+  <th>Tipo do Projeto</th>
   <th>Ativo</th>
   <th>Criado</th>
   <th>Modificado</th>
@@ -17,19 +15,17 @@
     {% for item in obj %}
         <tr>
             <td>{{item.id}}</td>
-            <td>{{item.cidade}}</td>
-            <td>{{item.ddd}}</td>
-            <td>{{item.sigla}}</td>
-            <td>{{item.codigo_municipio}}</td>
-            <td>{{item.estado}}</td>
+            <td>{{item.projeto}}</td>
+            <td>{{item.imovel}}</td>
+            <td>{{item.tipo_projeto}}</td>
             <td>{{item.ativo|yesno:"Ativo,Inativo"}}</td>
             <td>{{item.data_criou|date:"d/m/Y H:i:s"}}</td>
             <td>{{item.data_editou|date:"d/m/Y H:i:s"}}</td>
             <td>
                 <div class="btn-group">
                   {% comment %} <a href="{% url 'bases:pais_edit' item.id %}" class="btn btn-warning btn-circle" role="button"><i class="far fa-edit"></i></a> {% endcomment %}
-                  <a class="btn btn-success btn-circle" onclick="return abrir_modal('{% url 'bases:cidade_edit' item.id %}')" href="#"><i class="far fa-edit"></i></a>
-                  <a href="{% url 'bases:cidade_delete' item.id %}" class="btn btn-danger btn-circle" role="button"><i class="far fa-trash-alt"></i></a>
+                  <a class="btn btn-success btn-circle" onclick="return abrir_modal('{% url 'bases:projeto_edit' item.id %}')" href="#"><i class="far fa-edit"></i></a>
+                  <a href="{% url 'bases:projeto_delete' item.id %}" class="btn btn-danger btn-circle" role="button"><i class="far fa-trash-alt"></i></a>
                 </div>
             </td>
         </tr>
