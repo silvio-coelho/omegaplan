@@ -1,3 +1,4 @@
 env/
 config/db.py
 config/settings.py
+uploads/arquivos_de_projeto
