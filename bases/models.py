@@ -26,6 +26,7 @@ class Pais(ClasseModelo):
 
     def save(self):
         self.pais = self.pais.upper()
+        self.sigla = self.sigla.upper()
         super(Pais, self).save()
 
     class Meta:
@@ -61,6 +62,7 @@ class Cidade(ClasseModelo):
     
     def save(self):
         self.cidade = self.cidade.upper()
+        self.sigla = self.sigla.upper()
         super(Cidade, self).save()
     
     class Meta:
@@ -92,6 +94,7 @@ class Imovel(ClasseModelo):
     
     def save(self):
         self.imovel = self.imovel.upper()
+        self.endereco = self.endereco.upper()
         super(Imovel, self).save()
     
     class Meta:
@@ -129,9 +132,9 @@ class Projeto(ClasseModelo):
 
 
 class Obra(ClasseModelo):
-    EXECUCAO = 'Exe'
-    FINALIZADA = 'Fin'
-    PARALIZADA = 'Par'
+    EXECUCAO = 'EXE'
+    FINALIZADA = 'FIN'
+    PARALIZADA = 'PAR'
 
     obra = models.CharField(max_length=100, unique=True)
     projeto = models.ForeignKey(Projeto, on_delete=models.PROTECT)
