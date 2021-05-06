@@ -49,6 +49,8 @@ class CidadeForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in iter(self.fields):
             self.fields[field].widget.attrs.update({'class':'form-control'})
+        for form in self.visible_fields():
+            form.field.widget.attrs['autocomplete'] = 'off'    
 
 
 class OrgaoPublicoForm(forms.ModelForm):

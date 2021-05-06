@@ -3,3 +3,30 @@
 {% block content_form %}
     {{ form }}
 {% endblock content_form %}
+
+{% block js_page %}
+<script>
+$("input#id_codigo_municipio").change(function(){
+        var cep_code = $(this).val();
+        if( cep_code.length <= 0 ) return;
+        alert("Enviando consulta do CEP "+cep_code);
+        $.get("https://apps.widenet.com.br/busca-cep/api/cep.json", { code: cep_code },
+           function(result){
+              if( result.status!=200 && result.status!=1 ){
+                 alert(result.message || "Houve um erro desconhecido");
+                 return;
+              }
+              $("#id_codigo_municipio").val( result.code );
+              $("#id_cidade").val( result.city );
+              //$("input#estado").val( result.state );
+              //$("input#bairro").val( result.district );
+              //$("input#endereco").val( result.address );
+              //$("input#estado").val( result.state );
+              //alert("Dados recebidos e alterados");
+              console.log(result.city)
+              console.log(result.code)
+              console.log(result)
+           });
+     });
+</script>
+{% endblock js_page %}
