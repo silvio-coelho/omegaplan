@@ -128,6 +128,11 @@ class Projeto(ClasseModelo):
         verbose_name_plural = 'Projetos'
 
 
+class ProjetoAnexo(models.Model):
+    projeto = models.ForeignKey(Projeto, on_delete=models.SET_NULL, null=True, blank=True)
+    arquivo = models.FileField(upload_to='arquivos_de_projeto', null=True, blank=True)
+    
+
 class Obra(ClasseModelo):
     EXECUCAO = 'Exe'
     FINALIZADA = 'Fin'

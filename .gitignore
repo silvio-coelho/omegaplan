@@ -1,3 +1,6 @@
 env/
 config/db.py
 config/settings.py
+static_coletados/dist/
+static_coletados/js/
+static_coletados/plugins/
