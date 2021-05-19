@@ -25,7 +25,7 @@ class OrgaoPublicoAdmin(admin.ModelAdmin):
 
 @admin.register(Imovel)
 class ImovelAdmin(admin.ModelAdmin):
-    list_display = ("orgao_publico", "imovel", "endereco")
+    list_display = ("orgao_publico", "imovel", "rua")
 
 
 admin.site.register(TipoProjeto)

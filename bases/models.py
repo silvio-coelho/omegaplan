@@ -1,4 +1,4 @@
-from django.db import DefaultConnectionProxy, models
+from django.db import models
 
 # Create your models here.
 from django.contrib.auth.models import User
@@ -87,11 +87,11 @@ class OrgaoPublico(ClasseModelo):
 class Imovel(ClasseModelo):
     imovel = models.CharField(max_length=100, unique=True)
     orgao_publico = models.ForeignKey(OrgaoPublico, on_delete=models.PROTECT)
-    cep = models.CharField(max_length=10, default=0)
-    numero = models.CharField(max_length=100, default=0)
+    cep = models.CharField(max_length=10)
+    numero = models.CharField(max_length=100)
     rua = models.CharField(max_length=100)
-    bairro = models.CharField(max_length=100, default=0)
-    complemento = models.models.CharField(max_length=100, default=0)
+    bairro = models.CharField(max_length=100)
+    complemento = models.CharField(max_length=100)
     
 
     def __str__(self):
@@ -99,7 +99,7 @@ class Imovel(ClasseModelo):
     
     def save(self):
         self.imovel = self.imovel.upper()
-        self.endereco = self.endereco.upper()
+        self.rua = self.rua.upper()
         self.bairro = self.bairro.upper()
         super(Imovel, self).save()
     

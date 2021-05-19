@@ -69,9 +69,9 @@ class OrgaoPublicoForm(forms.ModelForm):
 class ImovelForm(forms.ModelForm):
     class Meta:
         model=Imovel
-        fields=['orgao_publico', 'imovel', 'endereco', 'ativo']
-        labels={'orgao_publico':'Órgão Público', 'imovel':'Imóvel', 'endereco':'Endereço', 'ativo':'Ativo'}
-        widget={'orgao_publico':forms.ModelChoiceField, 'imovel':forms.TextInput, 'endereco':forms.TextInput}
+        fields=['orgao_publico', 'imovel', 'rua', 'ativo']
+        labels={'orgao_publico':'Órgão Público', 'imovel':'Imóvel', 'rua':'Rua', 'ativo':'Ativo'}
+        widget={'orgao_publico':forms.ModelChoiceField, 'imovel':forms.TextInput, 'rua':forms.TextInput}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
