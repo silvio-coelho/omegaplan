@@ -12,8 +12,10 @@ from django.forms import model_to_dict
 
 from django.views import generic
 from django.urls import reverse_lazy
-from . models import Pais, Estado, Cidade, OrgaoPublico, Imovel, TipoProjeto, Projeto, Obra, Arquivo
-from . forms import PaisForm, EstadoForm, CidadeForm, OrgaoPublicoForm, ImovelForm, TipoProjetoForm, ProjetoForm, ObraForm, ArquivoForm
+from . models import Pais, Estado, Cidade, OrgaoPublico, Imovel, TipoProjeto, \
+    Projeto, ProjetoAnexo, Obra, Arquivo
+from . forms import PaisForm, EstadoForm, CidadeForm, OrgaoPublicoForm, ImovelForm, \
+    TipoProjetoForm, ProjetoForm, ObraForm, ArquivoForm
 
 
 class Home(LoginRequiredMixin, generic.TemplateView):
@@ -778,6 +780,8 @@ class ProjetoNew(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
 
     def post(self, request, *args, **kwargs):
         print(request.POST)
+        arquivos = request.FILES.getlist('arquivos')
+        print(arquivos)
         data = {}
         try:
             action = request.POST['action']
@@ -785,7 +789,19 @@ class ProjetoNew(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
                 form = self.get_form()
                 form.instance.usuario_criou = self.request.user
                 data = form.save()
+                projeto = data
+                print('data depois de gravar', data)
                 data = model_to_dict(data)
+                print('data depois model dict', data)
+
+                for arquivo in arquivos:
+                    anexo = ProjetoAnexo.objects.create(
+                        projeto=projeto,
+                        arquivo=arquivo,
+                    )
+
+
+
             else:
                 data['error'] = 'Não foi informado uma ação'
         except Exception as e:

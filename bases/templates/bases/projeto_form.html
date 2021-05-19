@@ -2,4 +2,9 @@
 
 {% block content_form %}
     {{ form }}
+
+    <div class="form-group m-3">
+        <label>Upload arquivos do projeto</label>
+        <input required name="arquivos" type="file" multiple class="form-control-file">
+    </div>
 {% endblock content_form %}
