@@ -162,14 +162,14 @@ class Projeto(ClasseModelo):
     obra = models.ForeignKey(Obra, on_delete=models.PROTECT)
 
     def __str__(self):
-        return '{}' .format(self.obra + ' DE ' + self.projeto.__str__())
+        return '{}' .format(self.projeto + ' DE ' + self.obra.__str__())
     
     def save(self):
         self.projeto = self.projeto.upper()
         super(Projeto, self).save()
     
     class Meta:
-        verbose_name_plural = 'Obras'
+        verbose_name_plural = 'Projetos'
     
     
 class Arquivo(ClasseModelo):
