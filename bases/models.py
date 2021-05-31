@@ -112,7 +112,7 @@ class TipoObra(ClasseModelo):
     tipo_obra = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
-        return '{}' .format(self.tipo_projeto)
+        return '{}' .format(self.tipo_obra)
     
     def save(self):
         self.tipo_obra = self.tipo_obra.upper()
@@ -124,6 +124,11 @@ class TipoObra(ClasseModelo):
 
 class Obra(ClasseModelo):
 
+    FUTURA = 'Fut'
+    EXECUCAO = 'Exe'
+    FINALIZADA = 'Fin'
+    PARALIZADA = 'Par'
+    
     STATUS_OBRA_CHOICES = [
         (FUTURA, 'Obra Futura'),
         (EXECUCAO, 'Em execução'),
@@ -134,10 +139,10 @@ class Obra(ClasseModelo):
     obra = models.CharField(max_length=100, unique=True)
     imovel = models.ForeignKey(Imovel, on_delete=models.PROTECT)
     tipo_obra = models.ForeignKey(TipoObra, on_delete=models.PROTECT)
-    status_obra = models.CharField(max_length=3, choices=STATUS_OBRA_CHOICES)
+    status_obra = models.CharField(max_length=10, choices=STATUS_OBRA_CHOICES)
 
     def __str__(self):
-        return '{}' .format(self.projeto + ' DE ' + self.imovel.__str__())
+        return '{}' .format(self.obra + ' DE ' + self.imovel.__str__())
     
     def save(self):
         self.obra = self.obra.upper()

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Pais, Estado, Cidade, OrgaoPublico, Imovel, TipoProjeto, Projeto, Obra, Arquivo
+from .models import Pais, Estado, Cidade, OrgaoPublico, Imovel, TipoObra, Projeto, Obra, Arquivo
 
 
 class PaisForm(forms.ModelForm):
@@ -81,7 +81,7 @@ class ImovelForm(forms.ModelForm):
 
 class TipoObraForm(forms.ModelForm):
     class Meta:
-        model=TipoProjeto
+        model=TipoObra
         fields=['tipo_obra', 'ativo']
         labels={'tipo_obra':'Tipo de Obra', 'ativo':'Ativo'}
         widget={'tipo_obra':forms.TextInput}
@@ -94,7 +94,7 @@ class TipoObraForm(forms.ModelForm):
 
 class ObraForm(forms.ModelForm):
     class Meta:
-        model=Projeto
+        model=Obra
         fields=['imovel', 'tipo_obra', 'obra', 'status_obra', 'ativo']
         labels={'imovel':'Imóvel', 'tipo_obra':'Tipo de Obra', 'obra':'Obra', 'status_obra':'Status da Obra', 'ativo':'Ativo'}
         widget={'imovel':forms.ModelChoiceField, 'tipo_obra':forms.ModelChoiceField, 'obra':forms.TextInput, 'status_obra':forms.Select}
@@ -107,10 +107,10 @@ class ObraForm(forms.ModelForm):
 
 class ProjetoForm(forms.ModelForm):
     class Meta:
-        model=Obra
+        model=Projeto
         fields=['obra', 'projeto', 'ativo']
         labels={'obra':'Obra', 'projeto':'Projeto', 'ativo':'Ativo'}
-        widget={'obra':forms.TextInput], 'projeto':forms.ModelChoiceField}
+        widget={'obra':forms.TextInput, 'projeto':forms.ModelChoiceField}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
