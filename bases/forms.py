@@ -69,9 +69,9 @@ class OrgaoPublicoForm(forms.ModelForm):
 class ImovelForm(forms.ModelForm):
     class Meta:
         model=Imovel
-        fields=['orgao_publico', 'imovel', 'rua', 'ativo']
-        labels={'orgao_publico':'Órgão Público', 'imovel':'Imóvel', 'rua':'Rua', 'ativo':'Ativo'}
-        widget={'orgao_publico':forms.ModelChoiceField, 'imovel':forms.TextInput, 'rua':forms.TextInput}
+        fields=['orgao_publico', 'imovel', 'cep', 'numero', 'rua', 'bairro', 'complemento', 'ativo']
+        labels={'orgao_publico':'Órgão Público', 'imovel':'Imóvel', 'cep':'Cep', 'numero':'Numero', 'rua':'Rua', 'bairro':'Bairro', 'complemento':'Complemento', 'ativo':'Ativo'}
+        widget={'orgao_publico':forms.ModelChoiceField, 'imovel':forms.TextInput, 'cep':forms.TextInput, 'numero':forms.NumberInput, 'rua':forms.TextInput, 'bairro':forms.TextInput, 'complemento':forms.TextInput}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -79,25 +79,12 @@ class ImovelForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({'class':'form-control'})
 
 
-class TipoProjetoForm(forms.ModelForm):
+class TipoObraForm(forms.ModelForm):
     class Meta:
         model=TipoProjeto
-        fields=['tipo_projeto', 'ativo']
-        labels={'tipo_projeto':'Tipo de Projeto', 'ativo':'Ativo'}
-        widget={'tipo_projeto':forms.TextInput}
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in iter(self.fields):
-            self.fields[field].widget.attrs.update({'class':'form-control'})
-
-
-class ProjetoForm(forms.ModelForm):
-    class Meta:
-        model=Projeto
-        fields=['imovel', 'tipo_projeto', 'projeto', 'ativo']
-        labels={'imovel':'Imóvel', 'tipo_projeto':'Tipo de Projeto', 'projeto':'Projeto', 'ativo':'Ativo'}
-        widget={'imovel':forms.ModelChoiceField, 'tipo_projeto':forms.ModelChoiceField, 'projeto':forms.TextInput}
+        fields=['tipo_obra', 'ativo']
+        labels={'tipo_obra':'Tipo de Obra', 'ativo':'Ativo'}
+        widget={'tipo_obra':forms.TextInput}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -107,10 +94,23 @@ class ProjetoForm(forms.ModelForm):
 
 class ObraForm(forms.ModelForm):
     class Meta:
+        model=Projeto
+        fields=['imovel', 'tipo_obra', 'obra', 'status_obra', 'ativo']
+        labels={'imovel':'Imóvel', 'tipo_obra':'Tipo de Obra', 'obra':'Obra', 'status_obra':'Status da Obra', 'ativo':'Ativo'}
+        widget={'imovel':forms.ModelChoiceField, 'tipo_obra':forms.ModelChoiceField, 'obra':forms.TextInput, 'status_obra':forms.Select}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({'class':'form-control'})
+
+
+class ProjetoForm(forms.ModelForm):
+    class Meta:
         model=Obra
-        fields=['projeto', 'obra', 'status_obra', 'ativo']
-        labels={'projeto':'Projeto', 'obra':'Obra', 'status_obra':'Status da Obra', 'ativo':'Ativo'}
-        widget={'projeto':forms.ModelChoiceField, 'obra':forms.TextInput, 'status_obra':forms.Select}
+        fields=['obra', 'projeto', 'ativo']
+        labels={'obra':'Obra', 'projeto':'Projeto', 'ativo':'Ativo'}
+        widget={'obra':forms.TextInput], 'projeto':forms.ModelChoiceField}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

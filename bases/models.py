@@ -101,68 +101,67 @@ class Imovel(ClasseModelo):
         self.imovel = self.imovel.upper()
         self.rua = self.rua.upper()
         self.bairro = self.bairro.upper()
+        self.complemento = self.complemento.upper()
         super(Imovel, self).save()
     
     class Meta:
         verbose_name_plural = 'Imóveis'
 
 
-class TipoProjeto(ClasseModelo):
-    tipo_projeto = models.CharField(max_length=100, unique=True)
+class TipoObra(ClasseModelo):
+    tipo_obra = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return '{}' .format(self.tipo_projeto)
     
     def save(self):
-        self.tipo_projeto = self.tipo_projeto.upper()
-        super(TipoProjeto, self).save()
+        self.tipo_obra = self.tipo_obra.upper()
+        super(TipoObra, self).save()
     
     class Meta:
-        verbose_name_plural = 'Tipos de Projetos'
+        verbose_name_plural = 'Tipos de Obra'
 
 
-class Projeto(ClasseModelo):
-    projeto = models.CharField(max_length=100, unique=True)
+class Obra(ClasseModelo):
+
+    STATUS_OBRA_CHOICES = [
+        (FUTURA, 'Obra Futura'),
+        (EXECUCAO, 'Em execução'),
+        (FINALIZADA, 'Finalizada'),
+        (PARALIZADA, 'Paralizada'),
+    ]
+
+    obra = models.CharField(max_length=100, unique=True)
     imovel = models.ForeignKey(Imovel, on_delete=models.PROTECT)
-    tipo_projeto = models.ForeignKey(TipoProjeto, on_delete=models.PROTECT)
+    tipo_obra = models.ForeignKey(TipoObra, on_delete=models.PROTECT)
+    status_obra = models.CharField(max_length=3, choices=STATUS_OBRA_CHOICES)
 
     def __str__(self):
         return '{}' .format(self.projeto + ' DE ' + self.imovel.__str__())
     
     def save(self):
-        self.projeto = self.projeto.upper()
-        super(Projeto, self).save()
+        self.obra = self.obra.upper()
+        super(Obra, self).save()
     
     class Meta:
-        verbose_name_plural = 'Projetos'
+        verbose_name_plural = 'Obras'
 
 
-class ProjetoAnexo(models.Model):
-    projeto = models.ForeignKey(Projeto, on_delete=models.SET_NULL, null=True, blank=True)
+class ObraAnexo(models.Model):
+    obra = models.ForeignKey(Obra, on_delete=models.SET_NULL, null=True, blank=True)
     arquivo = models.FileField(upload_to='arquivos_de_projeto', null=True, blank=True)
     
 
-class Obra(ClasseModelo):
-    EXECUCAO = 'EXE'
-    FINALIZADA = 'FIN'
-    PARALIZADA = 'PAR'
-
-    obra = models.CharField(max_length=100, unique=True)
-    projeto = models.ForeignKey(Projeto, on_delete=models.PROTECT)
-
-    STATUS_OBRA_CHOICES = [
-        (EXECUCAO, 'Em execução'),
-        (FINALIZADA, 'Finalizada'),
-        (PARALIZADA, 'Paralizada'),
-    ]
-    status_obra = models.CharField(max_length=3, choices=STATUS_OBRA_CHOICES)
+class Projeto(ClasseModelo):
+    projeto = models.CharField(max_length=100, unique=True)
+    obra = models.ForeignKey(Obra, on_delete=models.PROTECT)
 
     def __str__(self):
         return '{}' .format(self.obra + ' DE ' + self.projeto.__str__())
     
     def save(self):
-        self.obra = self.obra.upper()
-        super(Obra, self).save()
+        self.projeto = self.projeto.upper()
+        super(Projeto, self).save()
     
     class Meta:
         verbose_name_plural = 'Obras'
