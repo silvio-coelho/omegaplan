@@ -2,8 +2,11 @@
 
 {% block head_table %}
   <th>Id</th>
+  <th>País</th>
+  <th>Estado</th>
+  <th>Cidade</th>
   <th>Obra</th>
-  <th>Projeto</th>
+  <th>Projetos</th>
   <th>Status da Obra</th>
   <th>Ativo</th>
   <th>Criado</th>
@@ -15,8 +18,17 @@
     {% for item in obj %}
         <tr>
             <td>{{item.id}}</td>
+            <td>{{item.imovel.orgao_publico.cidade.estado.pais}}
+            <td>{{item.imovel.orgao_publico.cidade.estado}}
+            <td>{{item.imovel.orgao_publico.cidade}}
             <td>{{item.obra}}</td>
-            <td>{{item.projeto}}</td>
+            <td>{% for projeto in item.projeto.all %}
+              <!--{{ projetos.projeto }}-->
+              {% for arquivos in projeto.arquivo.all %}
+                <a href="{{arquivos.arquivo.url}}">a</a>
+              {% endfor %}
+              <br />
+            {% endfor %}</td>
             <td>{{item.status_obra}}</td>
             <td>{{item.ativo|yesno:"Ativo,Inativo"}}</td>
             <td>{{item.data_criou|date:"d/m/Y H:i:s"}}</td>
@@ -24,6 +36,7 @@
             <td>
                 <div class="btn-group">
                   {% comment %} <a href="{% url 'bases:pais_edit' item.id %}" class="btn btn-warning btn-circle" role="button"><i class="far fa-edit"></i></a> {% endcomment %}
+                  <a class="btn btn-primary btn-circle" href="#"><i class="fa fa-eye" aria-hidden="true"></i></a>
                   <a class="btn btn-success btn-circle" onclick="return abrir_modal('{% url 'bases:obra_edit' item.id %}')" href="#"><i class="far fa-edit"></i></a>
                   <a href="{% url 'bases:obra_delete' item.id %}" class="btn btn-danger btn-circle" role="button"><i class="far fa-trash-alt"></i></a>
                 </div>

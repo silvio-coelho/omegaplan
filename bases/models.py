@@ -74,7 +74,7 @@ class OrgaoPublico(ClasseModelo):
     cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT)
 
     def __str__(self):
-        return '{}' .format(self.orgao_publico + ' DE ' + self.cidade.__str__())
+        return '{}' .format(self.orgao_publico + ' - ' + self.cidade.__str__())
     
     def save(self):
         self.orgao_publico = self.orgao_publico.upper()
@@ -91,11 +91,11 @@ class Imovel(ClasseModelo):
     numero = models.CharField(max_length=100)
     rua = models.CharField(max_length=100)
     bairro = models.CharField(max_length=100)
-    complemento = models.CharField(max_length=100)
+    complemento = models.CharField(max_length=100, blank=True)
     
 
     def __str__(self):
-        return '{}' .format(self.imovel + ' DE ' + self.orgao_publico.__str__())
+        return '{}' .format(self.imovel + ' - ' + self.orgao_publico.__str__())
     
     def save(self):
         self.imovel = self.imovel.upper()
@@ -142,7 +142,7 @@ class Obra(ClasseModelo):
     status_obra = models.CharField(max_length=10, choices=STATUS_OBRA_CHOICES)
 
     def __str__(self):
-        return '{}' .format(self.obra + ' DE ' + self.imovel.__str__())
+        return '{}' .format(self.obra + ' - ' + self.imovel.__str__())
     
     def save(self):
         self.obra = self.obra.upper()
@@ -151,18 +151,12 @@ class Obra(ClasseModelo):
     class Meta:
         verbose_name_plural = 'Obras'
 
-
-class ObraAnexo(models.Model):
-    obra = models.ForeignKey(Obra, on_delete=models.SET_NULL, null=True, blank=True)
-    arquivo = models.FileField(upload_to='arquivos_de_projeto', null=True, blank=True)
-    
-
 class Projeto(ClasseModelo):
     projeto = models.CharField(max_length=100, unique=True)
-    obra = models.ForeignKey(Obra, on_delete=models.PROTECT)
+    obra = models.ForeignKey(Obra, on_delete=models.PROTECT, related_name='projeto')
 
     def __str__(self):
-        return '{}' .format(self.projeto + ' DE ' + self.obra.__str__())
+        return '{}' .format(self.projeto + ' - ' + self.obra.__str__())
     
     def save(self):
         self.projeto = self.projeto.upper()
@@ -170,19 +164,24 @@ class Projeto(ClasseModelo):
     
     class Meta:
         verbose_name_plural = 'Projetos'
-    
-    
-class Arquivo(ClasseModelo):
-    titulo = models.CharField(max_length=100)
-    projeto = models.ForeignKey(Projeto, on_delete=models.PROTECT)
-    arquivo = models.FileField(upload_to='arquivos_de_projeto/')
 
-    def __str__(self):
-        return '{}' .format(self.titulo + ' DE ' + self.projeto.__str__())
+
+class ProjetoAnexo(models.Model):
+    projeto = models.ForeignKey(Projeto, on_delete=models.SET_NULL, null=True, blank=True, related_name='arquivo')
+    arquivo = models.FileField(upload_to='arquivos_de_projeto', null=True, blank=True)
     
-    def save(self):
-        self.titulo = self.titulo.upper()
-        super(Arquivo, self).save()
+
+# class Arquivo(ClasseModelo):
+#     titulo = models.CharField(max_length=100)
+#     projeto = models.ForeignKey(Projeto, on_delete=models.PROTECT)
+#     arquivo = models.FileField(upload_to='arquivos_de_projeto/')
+
+#     def __str__(self):
+#         return '{}' .format(self.titulo + ' DE ' + self.projeto.__str__())
     
-    class Meta:
-        verbose_name_plural = 'Arquivos'
+#     def save(self):
+#         self.titulo = self.titulo.upper()
+#         super(Arquivo, self).save()
+    
+#     class Meta:
+#         verbose_name_plural = 'Arquivos'

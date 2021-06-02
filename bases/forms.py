@@ -1,5 +1,5 @@
 from django import forms
-from .models import Pais, Estado, Cidade, OrgaoPublico, Imovel, TipoObra, Projeto, Obra, Arquivo
+from .models import Pais, Estado, Cidade, OrgaoPublico, Imovel, TipoObra, Projeto, Obra#, Arquivo
 
 
 class PaisForm(forms.ModelForm):
@@ -118,14 +118,14 @@ class ProjetoForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({'class':'form-control'})
 
 
-class ArquivoForm(forms.ModelForm):
-    class Meta:
-        model=Arquivo
-        fields=['projeto', 'titulo', 'arquivo', 'ativo']
-        labels={'projeto':'Projeto', 'titulo':'Titulo', 'arquivo':'Arquivo', 'ativo':'Ativo'}
-        widget={'projeto':forms.ModelChoiceField, 'titulo':forms.TextInput, 'arquivo':forms.FileField}
+# class ArquivoForm(forms.ModelForm):
+#     class Meta:
+#         model=Arquivo
+#         fields=['projeto', 'titulo', 'arquivo', 'ativo']
+#         labels={'projeto':'Projeto', 'titulo':'Titulo', 'arquivo':'Arquivo', 'ativo':'Ativo'}
+#         widget={'projeto':forms.ModelChoiceField, 'titulo':forms.TextInput, 'arquivo':forms.FileField}
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in iter(self.fields):
-            self.fields[field].widget.attrs.update({'class':'form-control'})
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         for field in iter(self.fields):
+#             self.fields[field].widget.attrs.update({'class':'form-control'})

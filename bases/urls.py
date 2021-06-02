@@ -9,7 +9,7 @@ from bases.views import Home, PaisNew, PaisView, PaisEdit, PaisDelete, \
     CidadeEdit, CidadeDelete, OrgaoPublicoNew, OrgaoPublicoView, OrgaoPublicoEdit, \
     OrgaoPublicoDelete, ImovelNew, ImovelView, ImovelEdit, ImovelDelete, TipoObraNew, \
     TipoObraView, TipoObraEdit, TipoObraDelete, ProjetoNew, ProjetoView, ProjetoEdit, \
-    ProjetoDelete, ObraNew, ObraView, ObraEdit, ObraDelete, UploadView
+    ProjetoDelete, ObraNew, ObraView, ObraEdit, ObraDelete#, UploadView
 
 
 urlpatterns = [
@@ -57,7 +57,7 @@ urlpatterns = [
     path('obra/edit/<int:pk>', ObraEdit.as_view(), name='obra_edit'),
     path('obra/delete/<int:pk>', ObraDelete.as_view(), name='obra_delete'),
 
-    path('arquivo/upload', UploadView, name ='upload_view')
+    # path('arquivo/upload', UploadView, name ='upload_view')
 ]
 
 

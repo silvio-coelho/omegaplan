@@ -1,3 +1,4 @@
+from django.db import models
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.contrib import messages
@@ -13,9 +14,9 @@ from django.forms import model_to_dict
 from django.views import generic
 from django.urls import reverse_lazy
 from . models import Pais, Estado, Cidade, OrgaoPublico, Imovel, TipoObra, \
-    Projeto, ObraAnexo, Obra, Arquivo
+    Projeto, ProjetoAnexo, Obra#, Arquivo
 from . forms import PaisForm, EstadoForm, CidadeForm, OrgaoPublicoForm, ImovelForm, \
-    TipoObraForm, ProjetoForm, ObraForm, ArquivoForm
+    TipoObraForm, ProjetoForm, ObraForm#, ArquivoForm
 
 
 class Home(LoginRequiredMixin, generic.TemplateView):
@@ -795,7 +796,7 @@ class ProjetoNew(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
                 print('data depois model dict', data)
 
                 for arquivo in arquivos:
-                    anexo = ObraAnexo.objects.create(
+                    anexo = ProjetoAnexo.objects.create(
                         projeto=projeto,
                         arquivo=arquivo,
                     )
@@ -899,6 +900,13 @@ class ObraView(LoginRequiredMixin, generic.ListView):
         context['add_url'] = reverse_lazy("bases:obra_new")
         context['table_id'] = 'tabela_obras'
         return context
+
+
+class ObraDetail(LoginRequiredMixin, generic.DetailView):
+    model = Obra
+    template_name = "bases/obra_detail.html"
+    context_object_name = "obj"
+    login_url = "bases:login"
     
 
 class ObraNew(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
@@ -1001,16 +1009,16 @@ class ObraDelete(LoginRequiredMixin, generic.DeleteView):
         return context
 
 
-def UploadView(request):
-    if request.method == 'POST':
-        form = ArquivoForm(request.POST,request.FILES)
-        if form.is_valid():
-            form.instance.usuario_criou = request.user
-            form.save()
-            return HttpResponse('The file is saved')
-    else:
-        form = ArquivoForm()
-        context = {
-            'form':form,
-        }
-    return render(request, 'bases/upload_arquivo.html', context)
+# def UploadView(request):
+#     if request.method == 'POST':
+#         form = ArquivoForm(request.POST,request.FILES)
+#         if form.is_valid():
+#             form.instance.usuario_criou = request.user
+#             form.save()
+#             return HttpResponse('The file is saved')
+#     else:
+#         form = ArquivoForm()
+#         context = {
+#             'form':form,
+#         }
+#     return render(request, 'bases/upload_arquivo.html', context)
