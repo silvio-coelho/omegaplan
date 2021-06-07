@@ -2,9 +2,15 @@
 
 {% block head_table %}
   <th>Id</th>
+  <th>UF</th>
+  <th>Cidade</th>
   <th>Imóvel</th>
   <th>Órgão Público</th>
-  <th>Endereço</th>
+  <th>Cep</th>
+  <th>Numero</th>
+  <th>Rua</th>
+  <th>Bairro</th>
+  <th>Complemento</th>
   <th>Ativo</th>
   <th>Criado</th>
   <th>Modificado</th>
@@ -15,9 +21,15 @@
     {% for item in obj %}
         <tr>
             <td>{{item.id}}</td>
+            <td>{{item.orgao_publico.cidade.estado.uf}}</td>
+            <td>{{item.orgao_publico.cidade}}</td>
             <td>{{item.imovel}}</td>
             <td>{{item.orgao_publico}}</td>
-            <td>{{item.endereco}}</td>
+            <td>{{item.cep}}</td>
+            <td>{{item.numero}}</td>
+            <td>{{item.rua}}</td>
+            <td>{{item.bairro}}</td>
+            <td>{{item.complemento}}</td>
             <td>{{item.ativo|yesno:"Ativo,Inativo"}}</td>
             <td>{{item.data_criou|date:"d/m/Y H:i:s"}}</td>
             <td>{{item.data_editou|date:"d/m/Y H:i:s"}}</td>

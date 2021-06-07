@@ -3,8 +3,8 @@
 {% block head_table %}
   <th>Id</th>
   <th>Projeto</th>
-  <th>Imóvel</th>
-  <th>Tipo do Projeto</th>
+  <th>Obra</th>
+  <th>Arquivos</th>
   <th>Ativo</th>
   <th>Criado</th>
   <th>Modificado</th>
@@ -16,8 +16,11 @@
         <tr>
             <td>{{item.id}}</td>
             <td>{{item.projeto}}</td>
-            <td>{{item.imovel}}</td>
-            <td>{{item.tipo_projeto}}</td>
+            <td>{{item.obra}}</td>
+            <td>{% for arquivos in item.arquivo.all %}
+                <a href="{{arquivos.arquivo.url}}">{{arquivos.arquivo|truncatechars:20}}</a>
+            {% endfor %}
+            </td>
             <td>{{item.ativo|yesno:"Ativo,Inativo"}}</td>
             <td>{{item.data_criou|date:"d/m/Y H:i:s"}}</td>
             <td>{{item.data_editou|date:"d/m/Y H:i:s"}}</td>

@@ -7,9 +7,9 @@ from django.conf.urls.static import static
 from bases.views import Home, PaisNew, PaisView, PaisEdit, PaisDelete, \
     EstadoNew, EstadoView, EstadoEdit, EstadoDelete, CidadeNew, CidadeView, \
     CidadeEdit, CidadeDelete, OrgaoPublicoNew, OrgaoPublicoView, OrgaoPublicoEdit, \
-    OrgaoPublicoDelete, ImovelNew, ImovelView, ImovelEdit, ImovelDelete, TipoProjetoNew, \
-    TipoProjetoView, TipoProjetoEdit, TipoProjetoDelete, ProjetoNew, ProjetoView, ProjetoEdit, \
-    ProjetoDelete, ObraNew, ObraView, ObraEdit, ObraDelete, UploadView
+    OrgaoPublicoDelete, ImovelNew, ImovelView, ImovelEdit, ImovelDelete, TipoObraNew, \
+    TipoObraView, TipoObraEdit, TipoObraDelete, ProjetoNew, ProjetoView, ProjetoEdit, \
+    ProjetoDelete, ObraNew, ObraView, ObraEdit, ObraDelete#, UploadView
 
 
 urlpatterns = [
@@ -42,10 +42,10 @@ urlpatterns = [
     path('imovel/edit/<int:pk>', ImovelEdit.as_view(), name='imovel_edit'),
     path('imovel/delete/<int:pk>', ImovelDelete.as_view(), name='imovel_delete'),
 
-    path('tipoprojeto/', TipoProjetoView.as_view(), name='tipoprojeto_list'),
-    path('tipoprojeto/new', TipoProjetoNew.as_view(), name='tipoprojeto_new'),
-    path('tipoprojeto/edit/<int:pk>', TipoProjetoEdit.as_view(), name='tipoprojeto_edit'),
-    path('tipoprojeto/delete/<int:pk>', TipoProjetoDelete.as_view(), name='tipoprojeto_delete'),
+    path('tipoobra/', TipoObraView.as_view(), name='tiposobra_list'),
+    path('tipoobra/new', TipoObraNew.as_view(), name='tiposobra_new'),
+    path('tipoobra/edit/<int:pk>', TipoObraEdit.as_view(), name='tiposobra_edit'),
+    path('tipoobra/delete/<int:pk>', TipoObraDelete.as_view(), name='tiposobra_delete'),
 
     path('projeto/', ProjetoView.as_view(), name='projeto_list'),
     path('projeto/new', ProjetoNew.as_view(), name='projeto_new'),
@@ -57,7 +57,7 @@ urlpatterns = [
     path('obra/edit/<int:pk>', ObraEdit.as_view(), name='obra_edit'),
     path('obra/delete/<int:pk>', ObraDelete.as_view(), name='obra_delete'),
 
-    path('arquivo/upload', UploadView, name ='upload_view')
+    # path('arquivo/upload', UploadView, name ='upload_view')
 ]
 
 

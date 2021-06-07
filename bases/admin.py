@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from bases.models import Pais, Estado, Cidade, OrgaoPublico, Imovel, TipoProjeto, Projeto, Obra, Arquivo
+from bases.models import Pais, Estado, Cidade, OrgaoPublico, Imovel, TipoObra, Projeto, Obra, ProjetoAnexo#, Arquivo
 # Register your models here.
 
 @admin.register(Pais)
@@ -25,22 +25,28 @@ class OrgaoPublicoAdmin(admin.ModelAdmin):
 
 @admin.register(Imovel)
 class ImovelAdmin(admin.ModelAdmin):
-    list_display = ("orgao_publico", "imovel", "endereco")
+    list_display = ("orgao_publico", "imovel", "rua")
 
 
-admin.site.register(TipoProjeto)
-
-
-@admin.register(Projeto)
-class ProjetoAdmin(admin.ModelAdmin):
-    list_display = ("imovel", "tipo_projeto", "projeto")
+admin.site.register(TipoObra)
 
 
 @admin.register(Obra)
 class ObraAdmin(admin.ModelAdmin):
-    list_display = ("projeto", "obra", "status_obra")
+    list_display = ("imovel", "tipo_obra", "status_obra")
 
 
-@admin.register(Arquivo)
-class ArquivoAdmin(admin.ModelAdmin):
-    list_display = ("projeto", "titulo", "arquivo")
+class ArquivosInline(admin.StackedInline):
+    model = ProjetoAnexo
+    extra = 1
+
+
+@admin.register(Projeto)
+class ProjetoAdmin(admin.ModelAdmin):
+    list_display = ("projeto", "obra")
+    inlines = [ArquivosInline,]
+
+
+# @admin.register(Arquivo)
+# class ArquivoAdmin(admin.ModelAdmin):
+#     list_display = ("projeto", "titulo", "arquivo")

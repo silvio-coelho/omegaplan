@@ -1,3 +1,4 @@
+from django.db import models
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.contrib import messages
@@ -12,10 +13,10 @@ from django.forms import model_to_dict
 
 from django.views import generic
 from django.urls import reverse_lazy
-from . models import Pais, Estado, Cidade, OrgaoPublico, Imovel, TipoProjeto, \
-    Projeto, ProjetoAnexo, Obra, Arquivo
+from . models import Pais, Estado, Cidade, OrgaoPublico, Imovel, TipoObra, \
+    Projeto, ProjetoAnexo, Obra#, Arquivo
 from . forms import PaisForm, EstadoForm, CidadeForm, OrgaoPublicoForm, ImovelForm, \
-    TipoProjetoForm, ProjetoForm, ObraForm, ArquivoForm
+    TipoObraForm, ProjetoForm, ObraForm#, ArquivoForm
 
 
 class Home(LoginRequiredMixin, generic.TemplateView):
@@ -77,7 +78,7 @@ class PaisNew(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
   
 class PaisEdit(SuccessMessageMixin, generic.UpdateView):
     model = Pais
-    template_name = 'bases/pais_form.html'
+    template_name = 'bases/form.html'
     context_object_name = 'obj'
     form_class = PaisForm
     success_url = reverse_lazy("bases:pais_list")
@@ -115,7 +116,7 @@ class PaisEdit(SuccessMessageMixin, generic.UpdateView):
 
 class PaisDelete(LoginRequiredMixin, generic.DeleteView):
     model = Pais
-    template_name = 'bases/pais_delete.html'
+    template_name = 'bases/delete.html'
     success_url = reverse_lazy('bases:pais_list')
     #permission_required = 'delete_pais'
     url_redirect = success_url
@@ -633,32 +634,32 @@ class ImovelDelete(LoginRequiredMixin, generic.DeleteView):
         return context
 
 
-class TipoProjetoView(LoginRequiredMixin, generic.ListView):
+class TipoObraView(LoginRequiredMixin, generic.ListView):
     #permission_required = "inv.view_categoria"
-    model = TipoProjeto
-    template_name = "bases/tiposprojeto_list.html"
+    model = TipoObra
+    template_name = "bases/tiposobra_list.html"
     context_object_name = "obj"
     login_url = "bases:login"    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title_page'] = "Lista de Tipos de projeto"
-        context['entity'] = "Tipo de projeto"
-        context['breadcrumb'] = "Tipos de projeto"
-        context['list_url'] = reverse_lazy("bases:tipoprojeto_list")
-        context['add_url'] = reverse_lazy("bases:tipoprojeto_new")
-        context['table_id'] = 'tabela_tiposprojeto'
+        context['title_page'] = "Lista de Tipos de obra"
+        context['entity'] = "Tipo de obra"
+        context['breadcrumb'] = "Tipos de obra"
+        context['list_url'] = reverse_lazy("bases:tiposobra_list")
+        context['add_url'] = reverse_lazy("bases:tiposobra_new")
+        context['table_id'] = 'tabela_tiposobra'
         return context
     
 
-class TipoProjetoNew(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
-    model = TipoProjeto
-    template_name = 'bases/tipoprojeto_form.html'
+class TipoObraNew(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
+    model = TipoObra
+    template_name = 'bases/tiposobra_form.html'
     context_object_name = "obj"
-    form_class = TipoProjetoForm
-    success_url = reverse_lazy("bases:tipoprojeto_list")
+    form_class = TipoObraForm
+    success_url = reverse_lazy("bases:tiposobra_list")
     login_url = "bases:login"
-    success_message = "Tipo de projeto criado com sucesso!"
+    success_message = "Tipo de obra criado com sucesso!"
 
     def post(self, request, *args, **kwargs):
         print(request.POST)
@@ -678,21 +679,21 @@ class TipoProjetoNew(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = "Novo Tipo de projeto"
-        context['entity'] = "Tipo de projeto"
+        context['title'] = "Novo Tipo de obra"
+        context['entity'] = "Tipo de obra"
         context['list_url'] = self.success_url
         context['action'] = 'add'
         return context
 
   
-class TipoProjetoEdit(SuccessMessageMixin, generic.UpdateView):
-    model = TipoProjeto
-    template_name = 'bases/tipoprojeto_form.html'
+class TipoObraEdit(SuccessMessageMixin, generic.UpdateView):
+    model = TipoObra
+    template_name = 'bases/tiposobra_form.html'
     context_object_name = 'obj'
-    form_class = TipoProjetoForm
-    success_url = reverse_lazy("bases:tipoprojeto_list")
+    form_class = TipoObraForm
+    success_url = reverse_lazy("bases:tiposobra_list")
     login_url='bases:login'
-    success_message = "Tipo de projeto atualizado com sucesso!"
+    success_message = "Tipo de obra atualizado com sucesso!"
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -716,17 +717,17 @@ class TipoProjetoEdit(SuccessMessageMixin, generic.UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = "Editar Tipo de projeto"
-        context['entity'] = "Tipo de projeto"
+        context['title'] = "Editar Tipo de obra"
+        context['entity'] = "Tipo de obra"
         context['list_url'] = self.success_url
         context['action'] = 'update'
         return context
 
 
-class TipoProjetoDelete(LoginRequiredMixin, generic.DeleteView):
-    model = TipoProjeto
-    template_name = 'bases/tipoprojeto_delete.html'
-    success_url = reverse_lazy('bases:tipoprojeto_list')
+class TipoObraDelete(LoginRequiredMixin, generic.DeleteView):
+    model = TipoObra
+    template_name = 'bases/tiposobra_delete.html'
+    success_url = reverse_lazy('bases:tiposobra_list')
     url_redirect = success_url
 
     def dispatch(self, request, *args, **kwargs):
@@ -745,8 +746,8 @@ class TipoProjetoDelete(LoginRequiredMixin, generic.DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Apagar um Tipo de projeto'
-        context['entity'] = 'Tipo de projeto'
+        context['title'] = 'Apagar um Tipo de obra'
+        context['entity'] = 'Tipo de obra'
         context['list_url'] = self.success_url
         return context
 
@@ -899,6 +900,13 @@ class ObraView(LoginRequiredMixin, generic.ListView):
         context['add_url'] = reverse_lazy("bases:obra_new")
         context['table_id'] = 'tabela_obras'
         return context
+
+
+class ObraDetail(LoginRequiredMixin, generic.DetailView):
+    model = Obra
+    template_name = "bases/obra_detail.html"
+    context_object_name = "obj"
+    login_url = "bases:login"
     
 
 class ObraNew(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
@@ -1001,16 +1009,16 @@ class ObraDelete(LoginRequiredMixin, generic.DeleteView):
         return context
 
 
-def UploadView(request):
-    if request.method == 'POST':
-        form = ArquivoForm(request.POST,request.FILES)
-        if form.is_valid():
-            form.instance.usuario_criou = request.user
-            form.save()
-            return HttpResponse('The file is saved')
-    else:
-        form = ArquivoForm()
-        context = {
-            'form':form,
-        }
-    return render(request, 'bases/upload_arquivo.html', context)
+# def UploadView(request):
+#     if request.method == 'POST':
+#         form = ArquivoForm(request.POST,request.FILES)
+#         if form.is_valid():
+#             form.instance.usuario_criou = request.user
+#             form.save()
+#             return HttpResponse('The file is saved')
+#     else:
+#         form = ArquivoForm()
+#         context = {
+#             'form':form,
+#         }
+#     return render(request, 'bases/upload_arquivo.html', context)

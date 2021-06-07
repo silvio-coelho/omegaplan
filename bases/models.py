@@ -26,6 +26,7 @@ class Pais(ClasseModelo):
 
     def save(self):
         self.pais = self.pais.upper()
+        self.sigla = self.sigla.upper()
         super(Pais, self).save()
 
     class Meta:
@@ -61,6 +62,7 @@ class Cidade(ClasseModelo):
     
     def save(self):
         self.cidade = self.cidade.upper()
+        self.sigla = self.sigla.upper()
         super(Cidade, self).save()
     
     class Meta:
@@ -72,7 +74,7 @@ class OrgaoPublico(ClasseModelo):
     cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT)
 
     def __str__(self):
-        return '{}' .format(self.orgao_publico + ' DE ' + self.cidade.__str__())
+        return '{}' .format(self.orgao_publico + ' - ' + self.cidade.__str__())
     
     def save(self):
         self.orgao_publico = self.orgao_publico.upper()
@@ -85,40 +87,76 @@ class OrgaoPublico(ClasseModelo):
 class Imovel(ClasseModelo):
     imovel = models.CharField(max_length=100, unique=True)
     orgao_publico = models.ForeignKey(OrgaoPublico, on_delete=models.PROTECT)
-    endereco = models.CharField(max_length=100)
+    cep = models.CharField(max_length=10)
+    numero = models.CharField(max_length=100)
+    rua = models.CharField(max_length=100)
+    bairro = models.CharField(max_length=100)
+    complemento = models.CharField(max_length=100, blank=True)
+    
 
     def __str__(self):
-        return '{}' .format(self.imovel + ' DE ' + self.orgao_publico.__str__())
+        return '{}' .format(self.imovel + ' - ' + self.orgao_publico.__str__())
     
     def save(self):
         self.imovel = self.imovel.upper()
+        self.rua = self.rua.upper()
+        self.bairro = self.bairro.upper()
+        self.complemento = self.complemento.upper()
         super(Imovel, self).save()
     
     class Meta:
         verbose_name_plural = 'Imóveis'
 
 
-class TipoProjeto(ClasseModelo):
-    tipo_projeto = models.CharField(max_length=100, unique=True)
+class TipoObra(ClasseModelo):
+    tipo_obra = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
-        return '{}' .format(self.tipo_projeto)
+        return '{}' .format(self.tipo_obra)
     
     def save(self):
-        self.tipo_projeto = self.tipo_projeto.upper()
-        super(TipoProjeto, self).save()
+        self.tipo_obra = self.tipo_obra.upper()
+        super(TipoObra, self).save()
     
     class Meta:
-        verbose_name_plural = 'Tipos de Projetos'
+        verbose_name_plural = 'Tipos de Obra'
 
+
+class Obra(ClasseModelo):
+
+    FUTURA = 'Fut'
+    EXECUCAO = 'Exe'
+    FINALIZADA = 'Fin'
+    PARALIZADA = 'Par'
+    
+    STATUS_OBRA_CHOICES = [
+        (FUTURA, 'Obra Futura'),
+        (EXECUCAO, 'Em execução'),
+        (FINALIZADA, 'Finalizada'),
+        (PARALIZADA, 'Paralizada'),
+    ]
+
+    obra = models.CharField(max_length=100, unique=True)
+    imovel = models.ForeignKey(Imovel, on_delete=models.PROTECT)
+    tipo_obra = models.ForeignKey(TipoObra, on_delete=models.PROTECT)
+    status_obra = models.CharField(max_length=10, choices=STATUS_OBRA_CHOICES)
+
+    def __str__(self):
+        return '{}' .format(self.obra + ' - ' + self.imovel.__str__())
+    
+    def save(self):
+        self.obra = self.obra.upper()
+        super(Obra, self).save()
+    
+    class Meta:
+        verbose_name_plural = 'Obras'
 
 class Projeto(ClasseModelo):
     projeto = models.CharField(max_length=100, unique=True)
-    imovel = models.ForeignKey(Imovel, on_delete=models.PROTECT)
-    tipo_projeto = models.ForeignKey(TipoProjeto, on_delete=models.PROTECT)
+    obra = models.ForeignKey(Obra, on_delete=models.PROTECT, related_name='projeto')
 
     def __str__(self):
-        return '{}' .format(self.projeto + ' DE ' + self.imovel.__str__())
+        return '{}' .format(self.projeto + ' - ' + self.obra.__str__())
     
     def save(self):
         self.projeto = self.projeto.upper()
@@ -129,47 +167,21 @@ class Projeto(ClasseModelo):
 
 
 class ProjetoAnexo(models.Model):
-    projeto = models.ForeignKey(Projeto, on_delete=models.SET_NULL, null=True, blank=True)
+    projeto = models.ForeignKey(Projeto, on_delete=models.SET_NULL, null=True, blank=True, related_name='arquivo')
     arquivo = models.FileField(upload_to='arquivos_de_projeto', null=True, blank=True)
     
 
-class Obra(ClasseModelo):
-    EXECUCAO = 'Exe'
-    FINALIZADA = 'Fin'
-    PARALIZADA = 'Par'
+# class Arquivo(ClasseModelo):
+#     titulo = models.CharField(max_length=100)
+#     projeto = models.ForeignKey(Projeto, on_delete=models.PROTECT)
+#     arquivo = models.FileField(upload_to='arquivos_de_projeto/')
 
-    obra = models.CharField(max_length=100, unique=True)
-    projeto = models.ForeignKey(Projeto, on_delete=models.PROTECT)
-
-    STATUS_OBRA_CHOICES = [
-        (EXECUCAO, 'Em execução'),
-        (FINALIZADA, 'Finalizada'),
-        (PARALIZADA, 'Paralizada'),
-    ]
-    status_obra = models.CharField(max_length=3, choices=STATUS_OBRA_CHOICES)
-
-    def __str__(self):
-        return '{}' .format(self.obra + ' DE ' + self.projeto.__str__())
+#     def __str__(self):
+#         return '{}' .format(self.titulo + ' DE ' + self.projeto.__str__())
     
-    def save(self):
-        self.obra = self.obra.upper()
-        super(Obra, self).save()
+#     def save(self):
+#         self.titulo = self.titulo.upper()
+#         super(Arquivo, self).save()
     
-    class Meta:
-        verbose_name_plural = 'Obras'
-    
-    
-class Arquivo(ClasseModelo):
-    titulo = models.CharField(max_length=100)
-    projeto = models.ForeignKey(Projeto, on_delete=models.PROTECT)
-    arquivo = models.FileField(upload_to='arquivos_de_projeto/')
-
-    def __str__(self):
-        return '{}' .format(self.titulo + ' DE ' + self.projeto.__str__())
-    
-    def save(self):
-        self.titulo = self.titulo.upper()
-        super(Arquivo, self).save()
-    
-    class Meta:
-        verbose_name_plural = 'Arquivos'
+#     class Meta:
+#         verbose_name_plural = 'Arquivos'
