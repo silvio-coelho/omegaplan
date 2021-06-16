@@ -87,7 +87,7 @@ class OrgaoPublico(ClasseModelo):
 class Imovel(ClasseModelo):
     imovel = models.CharField(max_length=100, unique=True)
     orgao_publico = models.ForeignKey(OrgaoPublico, on_delete=models.PROTECT)
-    cep = models.CharField(max_length=10)
+    cep = models.CharField(max_length=10, help_text="Entre com o cep para auto preencher os dados")
     numero = models.CharField(max_length=100)
     rua = models.CharField(max_length=100)
     bairro = models.CharField(max_length=100)
@@ -169,6 +169,9 @@ class Projeto(ClasseModelo):
 class ProjetoAnexo(models.Model):
     projeto = models.ForeignKey(Projeto, on_delete=models.SET_NULL, null=True, blank=True, related_name='arquivo')
     arquivo = models.FileField(upload_to='arquivos_de_projeto', null=True, blank=True)
+
+    def __str__(self):
+        return '{}' .format(self.arquivo)
     
 
 # class Arquivo(ClasseModelo):

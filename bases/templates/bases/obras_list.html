@@ -25,7 +25,8 @@
             <td>{% for projeto in item.projeto.all %}
               <!--{{ projetos.projeto }}-->
               {% for arquivos in projeto.arquivo.all %}
-                <a href="{{arquivos.arquivo.url}}">a</a>
+                {{projeto.id}} -
+                <a href="{{arquivos.arquivo.url}}">{{projeto.projeto}}/{{arquivos.arquivo.name}}</a>
               {% endfor %}
               <br />
             {% endfor %}</td>
