@@ -18,7 +18,8 @@
             <td>{{item.projeto}}</td>
             <td>{{item.obra}}</td>
             <td>{% for arquivos in item.arquivo.all %}
-                <a href="{{arquivos.arquivo.url}}">{{arquivos.arquivo|truncatechars:20}}</a>
+                <a href="{{arquivos.arquivo.url}}" target="blank" >{{arquivos.arquivo|truncatechars:20}}</a>
+                <br />
             {% endfor %}
             </td>
             <td>{{item.ativo|yesno:"Ativo,Inativo"}}</td>
